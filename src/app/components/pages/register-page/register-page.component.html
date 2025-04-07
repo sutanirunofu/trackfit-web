@@ -1,0 +1,159 @@
+<div class="h-screen grid grid-rows-[auto_1fr] register-page">
+    <div class="logo">
+        <!-- <app-logo /> -->
+         <app-navigation />
+    </div>
+    <div class="flex flex-col items-center justify-center formContainer">
+        <div class="p-8 rounded-xl min-w-sm formInner">
+            <h2 class="text-center text-xl">Регистрация</h2>
+            <br />
+            <form [formGroup]="registerForm" class="flex flex-col gap-4" action="#">
+                @switch (step) { @case (0) {
+                <input
+                    formControlName="username"
+                    class="py-2 border-b-1 border-b-slate-300 outline-none"
+                    type="text"
+                    placeholder="Логин"
+                    maxlength="100"
+                    minlength="2"
+                    required
+                />
+                <input
+                    formControlName="firstName"
+                    class="py-2 border-b-1 border-b-slate-300 outline-none"
+                    type="text"
+                    placeholder="Имя"
+                    maxlength="100"
+                    minlength="1"
+                    required
+                />
+                <input
+                    formControlName="password"
+                    class="py-2 border-b-1 border-b-slate-300 outline-none"
+                    type="password"
+                    placeholder="Пароль"
+                    maxlength="100"
+                    minlength="8"
+                    required
+                />
+                <button
+                    class="rounded-md p-2 cursor-pointer submitButton"
+                    (click)="nextStep()"
+                    [disabled]="
+                        !registerForm.controls.username.valid ||
+                        !registerForm.controls.firstName.valid ||
+                        !registerForm.controls.password.valid
+                    "
+                >
+                    Далее
+                </button>
+                } @case (1) {
+                <input
+                    formControlName="birthday"
+                    class="py-2 border-b-1 border-b-slate-300 outline-none"
+                    type="date"
+                    required
+                />
+                <input
+                    formControlName="height"
+                    class="py-2 border-b-1 border-b-slate-300 outline-none"
+                    type="number"
+                    inputmode="numeric"
+                    placeholder="Рост"
+                    required
+                />
+                <input
+                    formControlName="weight"
+                    class="py-2 border-b-1 border-b-slate-300 outline-none"
+                    type="number"
+                    inputmode="numeric"
+                    placeholder="Вес"
+                    required
+                />
+                <div class="w-full flex gap-4">
+                    <button class="w-full rounded-md p-2 cursor-pointer submitButton" (click)="prevStep()">
+                        Назад
+                    </button>
+                    <button
+                        class="w-full rounded-md p-2 cursor-pointer submitButton"
+                        (click)="nextStep()"
+                        [disabled]="
+                            !registerForm.controls.birthday ||
+                            !registerForm.controls.height ||
+                            !registerForm.controls.weight
+                        "
+                    >
+                        Далее
+                    </button>
+                </div>
+                } @case (2) {
+                <div class="flex gap-4">
+                    <input
+                        id="goalType1"
+                        formControlName="goalType"
+                        name="goalType"
+                        class="hidden"
+                        type="radio"
+                        value="Похудеть"
+                        inputmode="numeric"
+                        required
+                        checked
+                    />
+                    <label for="goalType1" class="w-full py-2 text-center rounded-md inputOption cursor-pointer">Похудеть</label>
+                    <input
+                        id="goalType2"
+                        formControlName="goalType"
+                        name="goalType"
+                        class="hidden"
+                        type="radio"
+                        value="Набрать"
+                        inputmode="numeric"
+                        required
+                    />
+                    <label for="goalType2" class="w-full py-2 text-center rounded-md inputOption cursor-pointer">Набрать</label>
+                    <input
+                        id="goalType3"
+                        formControlName="goalType"
+                        name="goalType"
+                        class="hidden"
+                        type="radio"
+                        value="Норма"
+                        inputmode="numeric"
+                        required
+                    />
+                    <label for="goalType3" class="w-full py-2 text-center rounded-md inputOption cursor-pointer">Норма</label>
+                </div>
+                <input
+                    formControlName="goalWeight"
+                    class="py-2 border-b-1 border-b-slate-300 outline-none"
+                    type="number"
+                    inputmode="numeric"
+                    placeholder="Целевой вес"
+                    required
+                />
+                <div class="w-full flex gap-4">
+                    <button class="w-full rounded-md p-2 cursor-pointer submitButton" (click)="prevStep()">
+                        Назад
+                    </button>
+                    <button
+                        class="w-full rounded-md p-2 cursor-pointer submitButton"
+                        (click)="onSubmit()"
+                        [disabled]="!registerForm.valid"
+                    >
+                        Создать аккаунт
+                    </button>
+                </div>
+                }}
+
+                <!-- @if(errors.length > 0) {
+                    <ul class="errors">
+                        @for(error of errors; track $index) {
+                            <li>{{ error }}</li>
+                        }
+                    </ul>
+                } -->
+                <p class="text-center">Есть аккаунт? <a class="text-blue-700" routerLink="/login">Войти</a></p>
+            </form>
+        </div>
+    </div>
+</div>

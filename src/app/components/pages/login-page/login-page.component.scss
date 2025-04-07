@@ -1,0 +1,29 @@
+@use "variables" as *;
+
+.login-page {
+    background-color: $color-pink;
+}
+
+.formInner {
+    background-color: $color-white;
+}
+
+form > input {
+    border-color: $color-gray;
+}
+
+form > button {
+    background-color: $color-pink-accent;
+    color: $color-white;
+}
+
+form > button:hover {
+    background-color: $color-pink-accent-2;
+    transition: all 0.2s ease-in-out;
+}
+
+form > button:disabled {
+    background-color: $color-gray;
+    color: $color-text;
+    cursor: not-allowed;
+}

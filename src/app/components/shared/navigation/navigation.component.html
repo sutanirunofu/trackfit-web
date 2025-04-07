@@ -1,0 +1,14 @@
+@let u = user$ | async;
+
+<nav class="flex py-8 px-16">
+    <div class="lex-none logo">
+        <app-logo />
+    </div>
+    <div class="flex flex-auto justify-end-safe buttons">
+        @if(u !== null) {
+            <a routerLink="/profile">Профиль</a>
+        } @else {
+            <a routerLink="/login">Войти</a>
+        }
+    </div>
+</nav>
