@@ -1,8 +1,6 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { IUser } from './user.interface';
+import { Component, inject } from '@angular/core';
 import { AuthService } from 'app/services/auth.service';
 import { RouterModule } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { NavigationComponent } from "../../shared/navigation/navigation.component";
 
@@ -12,23 +10,13 @@ import { NavigationComponent } from "../../shared/navigation/navigation.componen
   templateUrl: './profile-page.component.html',
   styleUrl: './profile-page.component.scss'
 })
-export class ProfilePageComponent implements OnInit {
+export class ProfilePageComponent {
 
   private readonly authService = inject(AuthService);
 
-  public user$ = new BehaviorSubject<IUser | null>(null);
-
-  ngOnInit(): void {
-    this.authService.me().subscribe(response => {
-      console.log(response);
-      if (response?.id) {
-        this.user$.next(response);
-      }
-    })
-  }
+  public user$ = this.authService.getCurrentUser$();
 
   logout() {
-    this.authService.logout();
-    this.user$.next(null);
+    this.authService.logout()
   }
 }

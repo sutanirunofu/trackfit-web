@@ -1,0 +1,17 @@
+@use "variables" as *;
+
+.toast {
+    transform: translateX(200%);
+    background-color: $color-white;
+    animation: anim 4s ease-in-out;
+}
+
+@keyframes anim {
+    from, to {
+        transform: translateX(200%);
+    }
+
+    10%, 90% {
+        transform: translateX(0);
+    }
+}

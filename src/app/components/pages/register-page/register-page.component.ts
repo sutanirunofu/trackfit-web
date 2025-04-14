@@ -1,9 +1,11 @@
 import { Component, inject } from "@angular/core";
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import { FormControl, FormGroup, ReactiveFormsModule, ValidatorFn, Validators } from "@angular/forms";
 import { Router, RouterModule } from "@angular/router";
 import { IRegisterModel, IRegisterSuccessModel } from "./register.interface";
 import { AuthService } from "app/services/auth.service";
 import { NavigationComponent } from "../../shared/navigation/navigation.component";
+import { ToastsService } from "app/services/toasts.service";
+import { catchError, EMPTY } from "rxjs";
 
 type goalType = "Похудеть" | "Набрать" | "Норма";
 
@@ -27,6 +29,7 @@ interface IRegisterForm {
 export class RegisterPageComponent {
     private readonly authService = inject(AuthService);
     private readonly router = inject(Router);
+    private readonly toastsService = inject(ToastsService);
 
     public step: number = 0;
 
@@ -50,7 +53,24 @@ export class RegisterPageComponent {
         }),
         birthday: new FormControl<string>(new Date().toISOString(), {
             nonNullable: true,
-            validators: [Validators.required],
+            validators: [
+                Validators.required,
+                (control) => {
+                    const value = control.value;
+                    if (!value) return null;
+
+                    const birthDate = new Date(value);
+                    const today = new Date();
+                    let age = today.getFullYear() - birthDate.getFullYear();
+                    const monthDiff = today.getMonth() - birthDate.getMonth();
+
+                    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                        age--;
+                    }
+
+                    return age >= 16 ? null : { underage: true };
+                },
+            ],
         }),
         height: new FormControl<number | null>(null, {
             nonNullable: true,
@@ -99,13 +119,34 @@ export class RegisterPageComponent {
 
         console.log("Register with: ", registerModel);
 
-        this.authService.register(registerModel).subscribe((response: IRegisterSuccessModel) => {
+        this.authService.register$(registerModel)
+        .pipe(catchError(err => {
+            this.toastsService.addToast(err?.error?.message ?? "Что-то пошло не так", "error")
+            return EMPTY;
+        })).subscribe((response: IRegisterSuccessModel) => {
             console.log("register response: ", response);
 
             if (response.token) {
-              localStorage.setItem("access_token", response.token);
-              this.router.navigate(["/profile"]);
+                localStorage.setItem("access_token", response.token);
+
+                this.authService.me$().subscribe((me) => {
+                    this.toastsService.addToast("Успешная регистрация", "success")
+                    this.router.navigate(["/profile"]);
+                });
             }
         });
+    }
+
+    private isAtLeast16YearsOld(birthday: string): boolean {
+        const birthDate = new Date(birthday);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+
+        return age >= 16;
     }
 }

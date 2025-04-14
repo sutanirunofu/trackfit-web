@@ -1,7 +1,7 @@
 <div class="h-screen grid grid-rows-[auto_1fr] register-page">
     <div class="logo">
         <!-- <app-logo /> -->
-         <app-navigation />
+        <app-navigation />
     </div>
     <div class="flex flex-col items-center justify-center formContainer">
         <div class="p-8 rounded-xl min-w-sm formInner">
@@ -9,33 +9,80 @@
             <br />
             <form [formGroup]="registerForm" class="flex flex-col gap-4" action="#">
                 @switch (step) { @case (0) {
-                <input
-                    formControlName="username"
-                    class="py-2 border-b-1 border-b-slate-300 outline-none"
-                    type="text"
-                    placeholder="Логин"
-                    maxlength="100"
-                    minlength="2"
-                    required
-                />
-                <input
-                    formControlName="firstName"
-                    class="py-2 border-b-1 border-b-slate-300 outline-none"
-                    type="text"
-                    placeholder="Имя"
-                    maxlength="100"
-                    minlength="1"
-                    required
-                />
-                <input
-                    formControlName="password"
-                    class="py-2 border-b-1 border-b-slate-300 outline-none"
-                    type="password"
-                    placeholder="Пароль"
-                    maxlength="100"
-                    minlength="8"
-                    required
-                />
+                <div>
+                    <input
+                        formControlName="username"
+                        class="py-2 border-b-1 border-b-slate-300 outline-none w-full"
+                        type="text"
+                        placeholder="Логин"
+                        maxlength="100"
+                        minlength="2"
+                        required
+                    />
+                    @if (registerForm.controls.username.invalid && (registerForm.controls.username.dirty ||
+                    registerForm.controls.username.touched)) {
+                    <div class="text-red-500 text-sm mt-1">
+                        @if (registerForm.controls.username.errors?.['required']) {
+                        <p>Логин обязателен</p>
+                        } @if (registerForm.controls.username.errors?.['minlength']) {
+                        <p>Логин должен быть не менее 4 символов</p>
+                        } @if (registerForm.controls.username.errors?.['maxlength']) {
+                        <p>Логин должен быть не более 50 символов</p>
+                        }
+                    </div>
+                    }
+                </div>
+
+                <div>
+                    <input
+                        formControlName="firstName"
+                        class="py-2 border-b-1 border-b-slate-300 outline-none w-full"
+                        type="text"
+                        placeholder="Имя"
+                        maxlength="100"
+                        minlength="1"
+                        required
+                    />
+                    @if (registerForm.controls.firstName.invalid && (registerForm.controls.firstName.dirty ||
+                    registerForm.controls.firstName.touched)) {
+                    <div class="text-red-500 text-sm mt-1">
+                        @if (registerForm.controls.firstName.errors?.['required']) {
+                        <p>Имя обязательно</p>
+                        } @if (registerForm.controls.firstName.errors?.['minlength']) {
+                        <p>Имя должно быть не менее 1 символа</p>
+                        } @if (registerForm.controls.firstName.errors?.['maxlength']) {
+                        <p>Имя должно быть не более 50 символов</p>
+                        }
+                    </div>
+                    }
+                </div>
+
+                <div>
+                    <input
+                        formControlName="password"
+                        class="py-2 border-b-1 border-b-slate-300 outline-none w-full"
+                        type="password"
+                        placeholder="Пароль"
+                        maxlength="100"
+                        minlength="8"
+                        required
+                    />
+                    @if (registerForm.controls.password.invalid && (registerForm.controls.password.dirty ||
+                    registerForm.controls.password.touched)) {
+                    <div class="text-red-500 text-sm mt-1">
+                        @if (registerForm.controls.password.errors?.['required']) {
+                        <p>Пароль обязателен</p>
+                        } @if (registerForm.controls.password.errors?.['minlength']) {
+                        <p>Пароль должен быть не менее 8 символов</p>
+                        } @if (registerForm.controls.password.errors?.['maxlength']) {
+                        <p>Пароль должен быть не более 100 символов</p>
+                        } @if (registerForm.controls.password.errors?.['pattern']) {
+                        <p>Пароль должен содержать заглавные и строчные буквы, цифры и спецсимволы</p>
+                        }
+                    </div>
+                    }
+                </div>
+
                 <button
                     class="rounded-md p-2 cursor-pointer submitButton"
                     (click)="nextStep()"
@@ -48,28 +95,71 @@
                     Далее
                 </button>
                 } @case (1) {
-                <input
-                    formControlName="birthday"
-                    class="py-2 border-b-1 border-b-slate-300 outline-none"
-                    type="date"
-                    required
-                />
-                <input
-                    formControlName="height"
-                    class="py-2 border-b-1 border-b-slate-300 outline-none"
-                    type="number"
-                    inputmode="numeric"
-                    placeholder="Рост"
-                    required
-                />
-                <input
-                    formControlName="weight"
-                    class="py-2 border-b-1 border-b-slate-300 outline-none"
-                    type="number"
-                    inputmode="numeric"
-                    placeholder="Вес"
-                    required
-                />
+                <div>
+                    <input
+                        formControlName="birthday"
+                        class="py-2 border-b-1 border-b-slate-300 outline-none w-full"
+                        type="date"
+                        required
+                    />
+                    @if (registerForm.controls.birthday.invalid && (registerForm.controls.birthday.dirty ||
+                    registerForm.controls.birthday.touched)) {
+                    <div class="text-red-500 text-sm mt-1">
+                        @if (registerForm.controls.birthday.errors?.['required']) {
+                        <p>Дата рождения обязательна</p>
+                        } @if (registerForm.controls.birthday.errors?.['underage']) {
+                        <p>Для регистрации вам должно быть не менее 16 лет</p>
+                        }
+                    </div>
+                    }
+                </div>
+
+                <div>
+                    <input
+                        formControlName="height"
+                        class="py-2 border-b-1 border-b-slate-300 outline-none w-full"
+                        type="number"
+                        inputmode="numeric"
+                        placeholder="Рост"
+                        required
+                    />
+                    @if (registerForm.controls.height.invalid && (registerForm.controls.height.dirty ||
+                    registerForm.controls.height.touched)) {
+                    <div class="text-red-500 text-sm mt-1">
+                        @if (registerForm.controls.height.errors?.['required']) {
+                        <p>Рост обязателен</p>
+                        } @if (registerForm.controls.height.errors?.['min']) {
+                        <p>Рост должен быть не менее 10 см</p>
+                        } @if (registerForm.controls.height.errors?.['max']) {
+                        <p>Рост должен быть не более 300 см</p>
+                        }
+                    </div>
+                    }
+                </div>
+
+                <div>
+                    <input
+                        formControlName="weight"
+                        class="py-2 border-b-1 border-b-slate-300 outline-none w-full"
+                        type="number"
+                        inputmode="numeric"
+                        placeholder="Вес"
+                        required
+                    />
+                    @if (registerForm.controls.weight.invalid && (registerForm.controls.weight.dirty ||
+                    registerForm.controls.weight.touched)) {
+                    <div class="text-red-500 text-sm mt-1">
+                        @if (registerForm.controls.weight.errors?.['required']) {
+                        <p>Вес обязателен</p>
+                        } @if (registerForm.controls.weight.errors?.['min']) {
+                        <p>Вес должен быть не менее 10 кг</p>
+                        } @if (registerForm.controls.weight.errors?.['max']) {
+                        <p>Вес должен быть не более 500 кг</p>
+                        }
+                    </div>
+                    }
+                </div>
+
                 <div class="w-full flex gap-4">
                     <button class="w-full rounded-md p-2 cursor-pointer submitButton" (click)="prevStep()">
                         Назад
@@ -78,9 +168,9 @@
                         class="w-full rounded-md p-2 cursor-pointer submitButton"
                         (click)="nextStep()"
                         [disabled]="
-                            !registerForm.controls.birthday ||
-                            !registerForm.controls.height ||
-                            !registerForm.controls.weight
+                            !registerForm.controls.birthday.valid ||
+                            !registerForm.controls.height.valid ||
+                            !registerForm.controls.weight.valid
                         "
                     >
                         Далее
@@ -99,7 +189,9 @@
                         required
                         checked
                     />
-                    <label for="goalType1" class="w-full py-2 text-center rounded-md inputOption cursor-pointer">Похудеть</label>
+                    <label for="goalType1" class="w-full py-2 text-center rounded-md inputOption cursor-pointer"
+                        >Похудеть</label
+                    >
                     <input
                         id="goalType2"
                         formControlName="goalType"
@@ -110,7 +202,9 @@
                         inputmode="numeric"
                         required
                     />
-                    <label for="goalType2" class="w-full py-2 text-center rounded-md inputOption cursor-pointer">Набрать</label>
+                    <label for="goalType2" class="w-full py-2 text-center rounded-md inputOption cursor-pointer"
+                        >Набрать</label
+                    >
                     <input
                         id="goalType3"
                         formControlName="goalType"
@@ -121,16 +215,34 @@
                         inputmode="numeric"
                         required
                     />
-                    <label for="goalType3" class="w-full py-2 text-center rounded-md inputOption cursor-pointer">Норма</label>
+                    <label for="goalType3" class="w-full py-2 text-center rounded-md inputOption cursor-pointer"
+                        >Норма</label
+                    >
                 </div>
-                <input
-                    formControlName="goalWeight"
-                    class="py-2 border-b-1 border-b-slate-300 outline-none"
-                    type="number"
-                    inputmode="numeric"
-                    placeholder="Целевой вес"
-                    required
-                />
+
+                <div>
+                    <input
+                        formControlName="goalWeight"
+                        class="py-2 border-b-1 border-b-slate-300 outline-none w-full"
+                        type="number"
+                        inputmode="numeric"
+                        placeholder="Целевой вес"
+                        required
+                    />
+                    @if (registerForm.controls.goalWeight.invalid && (registerForm.controls.goalWeight.dirty ||
+                    registerForm.controls.goalWeight.touched)) {
+                    <div class="text-red-500 text-sm mt-1">
+                        @if (registerForm.controls.goalWeight.errors?.['required']) {
+                        <p>Целевой вес обязателен</p>
+                        } @if (registerForm.controls.goalWeight.errors?.['min']) {
+                        <p>Целевой вес должен быть не менее 10 кг</p>
+                        } @if (registerForm.controls.goalWeight.errors?.['max']) {
+                        <p>Целевой вес должен быть не более 500 кг</p>
+                        }
+                    </div>
+                    }
+                </div>
+
                 <div class="w-full flex gap-4">
                     <button class="w-full rounded-md p-2 cursor-pointer submitButton" (click)="prevStep()">
                         Назад
@@ -144,14 +256,6 @@
                     </button>
                 </div>
                 }}
-
-                <!-- @if(errors.length > 0) {
-                    <ul class="errors">
-                        @for(error of errors; track $index) {
-                            <li>{{ error }}</li>
-                        }
-                    </ul>
-                } -->
                 <p class="text-center">Есть аккаунт? <a class="text-blue-700" routerLink="/login">Войти</a></p>
             </form>
         </div>

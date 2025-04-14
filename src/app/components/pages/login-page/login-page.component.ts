@@ -7,6 +7,8 @@ import { ILoginModel, ILoginSuccessModel } from "./login.interface";
 import { AuthService } from "app/services/auth.service";
 import { Router, RouterModule } from "@angular/router";
 import { NavigationComponent } from "../../shared/navigation/navigation.component";
+import { ToastsService } from "app/services/toasts.service";
+import { catchError, EMPTY } from "rxjs";
 
 interface ILoginFormGroup {
     username: FormControl<string>;
@@ -15,7 +17,7 @@ interface ILoginFormGroup {
 
 @Component({
     selector: "app-login-page",
-    imports: [LogoComponent, CommonModule, ReactiveFormsModule, RouterModule, NavigationComponent],
+    imports: [CommonModule, ReactiveFormsModule, RouterModule, NavigationComponent],
     providers: [AuthService],
     templateUrl: "./login-page.component.html",
     styleUrl: "./login-page.component.scss",
@@ -23,6 +25,7 @@ interface ILoginFormGroup {
 export class LoginPageComponent implements OnInit {
     private readonly titleService = inject(Title);
     private readonly authService = inject(AuthService);
+    private readonly toastsService = inject(ToastsService);
     private readonly router = inject(Router);
 
     public readonly loginForm: FormGroup<ILoginFormGroup> = new FormGroup<ILoginFormGroup>({
@@ -58,16 +61,32 @@ export class LoginPageComponent implements OnInit {
             return;
         }
 
-
         console.log("Login with: ", loginModel);
 
-        this.authService.login(loginModel).subscribe((response: ILoginSuccessModel) => {
-            console.log("Login response: ", response);
-            
-            if (response.token) {
-                localStorage.setItem("access_token", response.token);
-                this.router.navigate(["/profile"]);
-            }
-        });
+        this.authService
+            .login$(loginModel)
+            .pipe(
+                catchError((err) => {
+                    console.dir(err);
+                    this.toastsService.addToast(err?.error?.message ?? "Что-то пошло не так", "error");
+                    return EMPTY;
+                })
+            )
+            .subscribe((response: ILoginSuccessModel) => {
+                console.log("Login response: ", response);
+
+                if (response.token) {
+                    localStorage.setItem("access_token", response.token);
+
+                    this.authService.me$().subscribe((user) => {
+                        console.log(user);
+
+                        if (user.id) {
+                            this.toastsService.addToast("Успешный вход", "success")
+                            this.router.navigate(["/profile"]);
+                        }
+                    });
+                }
+            });
     }
 }
