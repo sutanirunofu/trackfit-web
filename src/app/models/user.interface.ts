@@ -1,3 +1,5 @@
+import { IDiet } from "./diet.interface";
+
 export interface IUserGoalType {
     id: string;
     name: string;
@@ -19,6 +21,9 @@ export interface IUser {
     weight: number;
     goal: IUserGoal;
     avatar?: string;
+    diets: IDiet[];
+    registrationDate: string;
+    modificationDate: string;
 }
 
 export interface IUserUpdateModel {

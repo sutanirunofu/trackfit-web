@@ -69,18 +69,18 @@
                     </div>
                 </div>
                 <div class="flex flex-col gap-4 w-full">
-                    <div class="w-full max-w-80 bg-pink-200 py-2 px-4 rounded-full">&#64;{{ user.username }}</div>
-                    <div class="w-full max-w-80 bg-pink-200 py-2 px-4 rounded-full">
+                    <div class="w-full max-w-80 bg-pink-100 py-2 px-4 rounded-full">&#64;{{ user.username }}</div>
+                    <div class="w-full max-w-80 bg-pink-100 py-2 px-4 rounded-full">
                         {{ user.firstName }}
                     </div>
                     <div class="flex gap-4">
-                        <div class="w-full max-w-80 bg-pink-200 py-2 px-4 rounded-full">Вес: {{ user.weight }} кг</div>
-                        <div class="w-full max-w-80 bg-pink-200 py-2 px-4 rounded-full">Рост: {{ user.height }} см</div>
+                        <div class="w-full max-w-80 bg-pink-100 py-2 px-4 rounded-full">Вес: {{ user.weight }} кг</div>
+                        <div class="w-full max-w-80 bg-pink-100 py-2 px-4 rounded-full">Рост: {{ user.height }} см</div>
                     </div>
-                    <div class="flex w-full max-w-80 bg-pink-200 rounded-full">
+                    <div class="flex w-full max-w-80 bg-pink-100 rounded-full">
                         <div
                             [ngClass]="{
-                                'bg-pink-300': user.sex === 0
+                                'bg-pink-300/80': user.sex === 0
                             }"
                             class="w-full text-center rounded-full py-2 px-4"
                         >
@@ -88,7 +88,7 @@
                         </div>
                         <div
                             [ngClass]="{
-                                'bg-pink-300': user.sex === 1
+                                'bg-pink-300/80': user.sex === 1
                             }"
                             class="w-full text-center rounded-full py-2 px-4"
                         >
@@ -102,13 +102,13 @@
             </div>
             <div class="flex flex-col gap-4 px-16 py-8 border-b-1 border-pink-400">
                 <h1>Цель - {{ user.goal.type.name }}</h1>
-                <div class="w-full max-w-80 bg-pink-200 py-2 px-4 rounded-full">До {{ user.goal.weight }} кг</div>
+                <div class="w-full max-w-80 bg-pink-100 py-2 px-4 rounded-full">До {{ user.goal.weight }} кг</div>
             </div>
         </div>
         } @else {
         <div class="w-full flex justify-center">
             <div class="rounded-md user-card py-8 px-16">
-                <a class="block py-4 px-8 bg-pink-200 rounded-full" routerLink="/login">Войти в аккаунт</a>
+                <a class="block py-4 px-8 bg-pink-100 rounded-full" routerLink="/login">Войти в аккаунт</a>
             </div>
         </div>
         }

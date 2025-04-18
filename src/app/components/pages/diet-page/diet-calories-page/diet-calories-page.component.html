@@ -1,111 +1,216 @@
+@let products = filteredProducts$ | async;
+@let selectedProducts = selectedProducts$ | async;
+@let diets = diets$ | async;
+@let caloriesPerDay = (getNormalCaloriesPerDay$() | async) ?? 0;
+@let totalCalories = (totalCalories$ | async) ?? 0;
+
 <div class="flex flex-col gap-8">
     <div class="flex justify-center gap-4">
-        <button class="cursor-pointer">
+        <button (click)="prevDay()" class="cursor-pointer">
             <img class="h-6" src="arrow-left.svg" alt="Arrow left" />
         </button>
-        <div>Сегодня</div>
-        <button class="cursor-pointer">
+        <div>{{ getCurrentDateString() }}</div>
+        <button (click)="nextDay()" class="cursor-pointer">
             <img class="h-6" src="arrow-right.svg" alt="Arrow right" />
         </button>
     </div>
     <div class="flex justify-center">
         <div class="grid grid-cols-3 w-full max-w-200 border-1 border-pink-300 rounded-xl">
             <div class="w-full">
-                <h2 class="text-center border-b-1 border-pink-300 p-4">Норма</h2>
-                <p class="text-center p-4">1000</p>
+                <h2 class="text-center border-b-1 border-pink-300 p-4">Норма (кКал)</h2>
+                <p class="text-center p-4">{{ caloriesPerDay.toFixed(2) }}</p>
             </div>
             <div class="w-full">
-                <h2 class="text-center border-b-1 border-pink-300 p-4">Потреблено</h2>
-                <p class="text-center p-4">800</p>
+                <h2 class="text-center border-b-1 border-pink-300 p-4">Потреблено (кКал)</h2>
+                <p class="text-center p-4">{{ totalCalories.toFixed(2) }}</p>
             </div>
             <div class="w-full">
-                <h2 class="text-center border-b-1 border-pink-300 p-4">Осталось</h2>
-                <p class="text-center p-4">200</p>
+                <h2 class="text-center border-b-1 border-pink-300 p-4">Осталось (кКал)</h2>
+                <p class="text-center p-4">{{ (caloriesPerDay - totalCalories) <= 0 ? 0 : (caloriesPerDay - totalCalories).toFixed(2) }}</p>
             </div>
         </div>
     </div>
-    <div class="grid grid-cols-2 gap-8">
-        <div class="flex flex-col items-start gap-4">
-            <button
-                (click)="setOption(0)"
-                [ngClass]="{
-                    'bg-pink-300 text-white font-bold': option === 0
-                }"
-                class="flex justify-between w-full py-4 px-8 rounded-full bg-pink-100 cursor-pointer transition-all duration-300 ease-in-out"
-            >
-                <div>Завтрак</div>
-                <div>
-                    <img
-                        [ngClass]="{
-                            'filter brightness-0 invert': option === 0
-                        }"
-                        class="h-6 transition-all duration-300 ease-in-out"
-                        src="plus.svg"
-                        alt="Plus"
-                    />
+    <div class="flex items-start gap-4">
+        <button
+            (click)="setOption(0)"
+            [ngClass]="{
+                'bg-pink-300 text-white font-bold hover:bg-pink-300': option === 0
+            }"
+            class="flex justify-between w-full py-4 px-8 rounded-full border-1 border-pink-300 hover:bg-pink-100 cursor-pointer transition-all duration-300 ease-in-out"
+        >
+            <div>Завтрак</div>
+            <div>
+                <img
+                    [ngClass]="{
+                        'filter brightness-0 invert': option === 0
+                    }"
+                    class="h-6 transition-all duration-300 ease-in-out"
+                    src="plus.svg"
+                    alt="Plus"
+                />
+            </div>
+        </button>
+        <button
+            (click)="setOption(1)"
+            [ngClass]="{
+                'bg-pink-300 text-white font-bold hover:bg-pink-300': option === 1
+            }"
+            class="flex justify-between w-full py-4 px-8 rounded-full border-1 border-pink-300 hover:bg-pink-100 cursor-pointer transition-all duration-300 ease-in-out"
+        >
+            <div>Обед</div>
+            <div>
+                <img
+                    [ngClass]="{
+                        'filter brightness-0 invert': option === 1
+                    }"
+                    class="h-6 transition-all duration-300 ease-in-out"
+                    src="plus.svg"
+                    alt="Plus"
+                />
+            </div>
+        </button>
+        <button
+            (click)="setOption(2)"
+            [ngClass]="{
+                'bg-pink-300 text-white font-bold hover:bg-pink-300': option === 2
+            }"
+            class="flex justify-between w-full py-4 px-8 rounded-full border-1 border-pink-300 hover:bg-pink-100 cursor-pointer transition-all duration-300 ease-in-out"
+        >
+            <div>Ужин</div>
+            <div>
+                <img
+                    [ngClass]="{
+                        'filter brightness-0 invert': option === 2
+                    }"
+                    class="h-6 transition-all duration-300 ease-in-out"
+                    src="plus.svg"
+                    alt="Plus"
+                />
+            </div>
+        </button>
+        <button
+            (click)="setOption(3)"
+            [ngClass]="{
+                'bg-pink-300 text-white font-bold hover:bg-pink-300': option === 3
+            }"
+            class="flex justify-between w-full py-4 px-8 rounded-full border-1 border-pink-300 hover:bg-pink-100 cursor-pointer transition-all duration-300 ease-in-out"
+        >
+            <div>Перекус</div>
+            <div>
+                <img
+                    [ngClass]="{
+                        'filter brightness-0 invert': option === 3
+                    }"
+                    class="h-6 transition-all duration-300 ease-in-out"
+                    src="plus.svg"
+                    alt="Plus"
+                />
+            </div>
+        </button>
+    </div>
+    <div class="grid grid-cols-[1fr_2fr] gap-4 h-full">
+        <div class="border-1 border-pink-300 rounded-xl">
+            <div class="grid grid-cols-2 items-center gap-4 p-2 border-b-1 border-pink-300">
+                <div class="text-center border-r-2 border-slate-300">{{ getDietTypeFrom(option) }}</div>
+                <div class="flex justify-center w-full">
+                    <button
+                        (click)="submit()"
+                        class="border-1 border-pink-300 hover:bg-pink-100 transition-all duration-300 ease-in-out py-2 px-8 rounded-full cursor-pointer"
+                    >
+                        Добавить в рацион
+                    </button>
                 </div>
-            </button>
-            <button
-                (click)="setOption(1)"
-                [ngClass]="{
-                    'bg-pink-300 text-white font-bold': option === 1
-                }"
-                class="flex justify-between w-full py-4 px-8 rounded-full bg-pink-100 cursor-pointer transition-all duration-300 ease-in-out"
-            >
-                <div>Обед</div>
-                <div>
-                    <img
-                        [ngClass]="{
-                            'filter brightness-0 invert': option === 1
-                        }"
-                        class="h-6 transition-all duration-300 ease-in-out"
-                        src="plus.svg"
-                        alt="Plus"
-                    />
+            </div>
+            <div class="h-screen max-h-130 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                <div class="flex flex-col overflow-hidden rounded-xl">
+                    @for(sp of selectedProducts; track sp.id) {
+                    <div class="grid grid-cols-[2fr_1fr_1fr] border-b-1 border-pink-300">
+                        <div class="p-4">{{ sp.product.name }}</div>
+                        <div class="flex justify-center items-center gap-4 p-4">
+                            <input
+                                class="w-20 h-full text-center border-b-1 border-slate-300 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                type="number"
+                                (input)="updateProductWeight(sp, $event)"
+                                [value]="sp.weight"
+                                placeholder="100"
+                            />
+                            <p>грамм</p>
+                        </div>
+                        <div class="flex justify-center items-center w-full h-full p-2">
+                            <button
+                                (click)="removeSelectedProduct(sp)"
+                                class="w-fit h-fit border-1 border-red-300 hover:bg-red-100 transition-all duration-300 ease-in-out cursor-pointer rounded-full py-2 px-8"
+                            >
+                                Удалить
+                            </button>
+                        </div>
+                    </div>
+                    }
                 </div>
-            </button>
-            <button
-                (click)="setOption(2)"
-                [ngClass]="{
-                    'bg-pink-300 text-white font-bold': option === 2
-                }"
-                class="flex justify-between w-full py-4 px-8 rounded-full bg-pink-100 cursor-pointer transition-all duration-300 ease-in-out"
-            >
-                <div>Ужин</div>
-                <div>
-                    <img
-                        [ngClass]="{
-                            'filter brightness-0 invert': option === 2
-                        }"
-                        class="h-6 transition-all duration-300 ease-in-out"
-                        src="plus.svg"
-                        alt="Plus"
-                    />
-                </div>
-            </button>
-            <button
-                (click)="setOption(3)"
-                [ngClass]="{
-                    'bg-pink-300 text-white font-bold': option === 3
-                }"
-                class="flex justify-between w-full py-4 px-8 rounded-full bg-pink-100 cursor-pointer transition-all duration-300 ease-in-out"
-            >
-                <div>Перекус</div>
-                <div>
-                    <img
-                        [ngClass]="{
-                            'filter brightness-0 invert': option === 3
-                        }"
-                        class="h-6 transition-all duration-300 ease-in-out"
-                        src="plus.svg"
-                        alt="Plus"
-                    />
-                </div>
-            </button>
+            </div>
         </div>
         <div class="border-1 border-pink-300 rounded-xl">
-            <h2 class="text-center p-4 border-b-1 border-pink-300">Продукты</h2>
-            <div class="p-4"></div>
+            <div class="flex gap-4 p-4 border-b-1 border-pink-300">
+                <h2 class="border-r-2 border-slate-300 pr-4">Продукты</h2>
+                <input (input)="search($event)" type="text" class="outline-none" placeholder="Поиск..." />
+            </div>
+            <div class="grid grid-cols-[4fr_140px_140px_140px_140px] border-b-1 border-pink-300 bg-pink-100">
+                <p class="py-2 px-4 text-center border-r-1 border-pink-300">Название</p>
+                <p class="py-2 px-4 text-center border-r-1 border-pink-300">Калории</p>
+                <p class="py-2 px-4 text-center border-r-1 border-pink-300">Белки</p>
+                <p class="py-2 px-4 text-center border-r-1 border-pink-300">Жиры</p>
+                <p class="py-2 px-4 text-center">Углеводы</p>
+            </div>
+            <div
+                class="h-screen max-h-120 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+            >
+                <div class="flex flex-col">
+                    @for(product of products; track product.id) {
+                    <button
+                        (click)="selectProduct(product)"
+                        class="h-fit grid grid-cols-[4fr_140px_140px_140px_140px] border-b-1 border-pink-300 hover:bg-pink-50 cursor-pointer transition-all duration-300 ease-in-out"
+                    >
+                        <p class="py-2 px-4 text-center border-r-1 border-pink-300">{{ product.name }}</p>
+                        <p class="py-2 px-4 text-center border-r-1 border-pink-300">{{ product.calories }}</p>
+                        <p class="py-2 px-4 text-center border-r-1 border-pink-300">{{ product.proteins }}</p>
+                        <p class="py-2 px-4 text-center border-r-1 border-pink-300">{{ product.fats }}</p>
+                        <p class="py-2 px-4 text-center">{{ product.carbohydrates }}</p>
+                    </button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="flex flex-col gap-4">
+        <h2>Рацион</h2>
+        <div class="border-1 border-pink-300 rounded-xl overflow-hidden">
+            <div class="grid grid-cols-6 border-b-1 border-pink-300 bg-pink-100">
+                <div class="border-r-1 border-pink-300 py-2 px-4">Тип</div>
+                <div class="border-r-1 border-pink-300 py-2 px-4">Название продукта</div>
+                <div class="border-r-1 border-pink-300 py-2 px-4">Вес (грамм)</div>
+                <div class="border-r-1 border-pink-300 py-2 px-4">Калории</div>
+                <div class="border-r-1 border-pink-300 py-2 px-4">Дата, время</div>
+                <div class="border-r-1 border-pink-300 py-2 px-4">Действия</div>
+            </div>
+    
+            <div class="h-screen max-h-120 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                @for(diet of diets; track diet.id) {
+                <div class="grid grid-cols-6 border-b-1 border-pink-300">
+                    <div class="border-r-1 border-pink-300 py-2 px-4">{{ getDietTypeFrom(diet.type) }}</div>
+                    <div class="border-r-1 border-pink-300 py-2 px-4">{{ diet.product.name }}</div>
+                    <div class="border-r-1 border-pink-300 py-2 px-4">{{ diet.weight }}</div>
+                    <div class="border-r-1 border-pink-300 py-2 px-4">
+                        {{ ((diet.weight / 100) * diet.product.calories).toFixed(2) }}
+                    </div>
+                    <div class="border-r-1 border-pink-300 py-2 px-4">
+                        {{ diet.creationDate | date : "short" }}
+                    </div>
+                    <div class="border-r-1 border-pink-300 py-2 px-4">
+                        <button (click)="deleteDietById(diet.id)" class="border-1 border-red-300 rounded-full py-2 px-4 hover:bg-red-100 cursor-pointer">Удалить</button>
+                    </div>
+                </div>
+                }
+            </div>
         </div>
     </div>
 </div>

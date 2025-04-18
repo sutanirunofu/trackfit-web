@@ -1,12 +1,12 @@
 @let toasts = toasts$ | async;
 
-<div class="w-90 overflow-hidden flex flex-col gap-2 p-4">
+<div class="w-100 overflow-hidden flex flex-col gap-2 p-4">
     @for(toast of toasts; track toast.id) {
         <div [ngClass]="{
-            'text-sky-500 border-b-sky-400': toast.type === 'info',
-            'text-lime-600 border-b-lime-500': toast.type === 'success',
-            'text-amber-600 border-b-amber-500': toast.type === 'warning',
-            'text-red-500 border-b-red-400': toast.type === 'error',
-        }" class="toast grid content-center w-full border-1 border-b-2 border-slate-300 rounded-md py-2 px-4">{{ toast.text }}</div>
+            'text-sky-500 border-sky-400': toast.type === 'info',
+            'text-lime-600 border-lime-500': toast.type === 'success',
+            'text-amber-600 border-amber-500': toast.type === 'warning',
+            'text-red-500 border-red-400': toast.type === 'error',
+        }" class="toast grid content-center w-full border-1 rounded-full py-4 px-8">{{ toast.text }}</div>
     }
 </div>
