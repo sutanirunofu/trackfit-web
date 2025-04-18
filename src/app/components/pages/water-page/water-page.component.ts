@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 import { NavigationComponent } from "../../shared/navigation/navigation.component";
 
 @Component({
-  selector: 'app-home-page',
+  selector: 'app-water-page',
   imports: [NavigationComponent],
-  templateUrl: './home-page.component.html',
-  styleUrl: './home-page.component.scss'
+  templateUrl: './water-page.component.html',
+  styleUrl: './water-page.component.scss'
 })
-export class HomePageComponent {
+export class WaterPageComponent {
+
 }

@@ -1,5 +1,5 @@
 import { Component, inject } from "@angular/core";
-import { FormControl, FormGroup, ReactiveFormsModule, ValidatorFn, Validators } from "@angular/forms";
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { Router, RouterModule } from "@angular/router";
 import { IRegisterModel, IRegisterSuccessModel } from "./register.interface";
 import { AuthService } from "app/services/auth.service";
@@ -13,6 +13,7 @@ interface IRegisterForm {
     username: FormControl<string>;
     firstName: FormControl<string>;
     password: FormControl<string>;
+    sex: FormControl<number>;
     birthday: FormControl<string>;
     height: FormControl<number | null>;
     weight: FormControl<number | null>;
@@ -50,6 +51,10 @@ export class RegisterPageComponent {
                 Validators.maxLength(100),
                 Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$/),
             ],
+        }),
+        sex: new FormControl<number>(0, {
+           nonNullable: true,
+           validators: [Validators.required, Validators.min(0), Validators.max(1)], 
         }),
         birthday: new FormControl<string>(new Date().toISOString(), {
             nonNullable: true,
@@ -105,6 +110,7 @@ export class RegisterPageComponent {
             username: data.username ?? "",
             firstName: data.firstName ?? "",
             password: data.password ?? "",
+            sex: data.sex ?? 0,
             birthday: data.birthday ?? new Date().toISOString(),
             height: data.height ?? 0,
             weight: data.weight ?? 0,
@@ -113,19 +119,14 @@ export class RegisterPageComponent {
         };
 
         if (!this.registerForm.valid) {
-            console.log("Invalid!", registerModel);
             return;
         }
-
-        console.log("Register with: ", registerModel);
 
         this.authService.register$(registerModel)
         .pipe(catchError(err => {
             this.toastsService.addToast(err?.error?.message ?? "Что-то пошло не так", "error")
             return EMPTY;
         })).subscribe((response: IRegisterSuccessModel) => {
-            console.log("register response: ", response);
-
             if (response.token) {
                 localStorage.setItem("access_token", response.token);
 
@@ -135,18 +136,5 @@ export class RegisterPageComponent {
                 });
             }
         });
-    }
-
-    private isAtLeast16YearsOld(birthday: string): boolean {
-        const birthDate = new Date(birthday);
-        const today = new Date();
-        let age = today.getFullYear() - birthDate.getFullYear();
-        const monthDiff = today.getMonth() - birthDate.getMonth();
-
-        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-            age--;
-        }
-
-        return age >= 16;
     }
 }

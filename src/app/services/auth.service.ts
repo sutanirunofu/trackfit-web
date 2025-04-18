@@ -14,20 +14,21 @@ export class AuthService {
     private readonly currentUser$ = new BehaviorSubject<IUser | null>(null);
     private readonly isReady$ = new BehaviorSubject<boolean>(true);
     private readonly platformId = inject(PLATFORM_ID);
-
+    
     public getIsReady$(): Observable<boolean> {
         return this.isReady$;
     }
 
     public getIsAuth$(): Observable<boolean> {
-        return this.currentUser$.pipe(map((u) => {
-            console.log(u);
-            return u !== null;
-        }));
+        return this.currentUser$.pipe(map((u) => u !== null));
     }
 
     public getCurrentUser$(): Observable<IUser | null> {
         return this.currentUser$;
+    }
+
+    public setCurrentUser(user: IUser): void {
+        this.currentUser$.next(user);
     }
 
     public login$(loginModel: ILoginModel): Observable<ILoginSuccessModel> {
@@ -49,7 +50,6 @@ export class AuthService {
 
         return this.http.get<IUser>("/Auth/Me", { Authorization: `Bearer ${token}` }).pipe(
             map((response) => {
-                console.log("set user: ", response);
                 this.currentUser$.next(response);
                 return response;
             }),

@@ -1,41 +1,45 @@
-<div class="h-screen grid grid-rows-[auto_1fr] login-page">
+<div class="h-screen grid grid-rows-[auto_1fr] bg-pink-200">
     <div class="logo">
-        <!-- <app-logo /> -->
-         <app-navigation />
+        <app-navigation />
     </div>
-    <div class="flex flex-col items-center justify-center formContainer">
-        <div class="min-w-sm p-8 rounded-xl formInner">
+    <div class="flex flex-col items-center justify-center">
+        <div class="flex flex-col gap-4 min-w-sm p-8 rounded-xl bg-white">
             <h2 class="text-center text-xl">Вход</h2>
-            <br />
-            <form [formGroup]="loginForm" (submit)="onSubmit($event)" class="flex flex-col gap-4" action="#">
+            <form [formGroup]="loginForm" (submit)="onSubmit()" class="flex flex-col gap-4" action="#">
                 <input
                     formControlName="username"
-                    class="border-b-2 py-2 outline-none"
+                    class="border-b-1 border-slate-300 py-2 outline-none"
                     type="text"
                     placeholder="Логин"
                     maxlength="100"
-                    minlength="2"
                     required
                 />
                 <input
                     formControlName="password"
-                    class="border-b-2 py-2 outline-none"
+                    class="border-b-1 border-slate-300 py-2 outline-none"
                     type="password"
                     placeholder="Пароль"
                     maxlength="100"
-                    minlength="8"
                     required
                 />
-                <button class="rounded-md p-2 cursor-pointer submitButton" type="submit" [disabled]="!loginForm.valid">Войти</button>
-                
+                <button
+                    class="rounded-md py-2 px-4 cursor-pointer bg-pink-200 disabled:bg-gray-200 disabled:text-gray-600 disabled:cursor-default"
+                    type="submit"
+                    [disabled]="!loginForm.valid"
+                >
+                    Войти
+                </button>
+
                 @if(errors.length > 0) {
-                    <ul class="errors">
-                        @for(error of errors; track $index) {
-                            <li>{{ error }}</li>
-                        }
-                    </ul>
+                <ul class="errors">
+                    @for(error of errors; track $index) {
+                    <li>{{ error }}</li>
+                    }
+                </ul>
                 }
-                <p class="text-center">Нет аккаунта? <a class="text-blue-700" routerLink="/register">Создать аккаунт</a></p>
+                <p class="text-center">
+                    Нет аккаунта? <a class="text-blue-600" routerLink="/register">Создать аккаунт</a>
+                </p>
             </form>
         </div>
     </div>

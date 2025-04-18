@@ -13,8 +13,20 @@ export interface IUser {
     id: string;
     username: string;
     firstName: string;
+    sex: number;
     birthday: string;
     height: number;
     weight: number;
     goal: IUserGoal;
+    avatar?: string;
+}
+
+export interface IUserUpdateModel {
+    firstName?: string;
+    sex?: number;
+    birthday?: string;
+    height?: number;
+    weight?: number;
+    goal?: IUserGoal;
+    avatar?: string;
 }

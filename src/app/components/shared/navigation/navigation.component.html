@@ -1,11 +1,13 @@
 @let u = user$ | async;
 
-<nav class="flex py-8 px-16">
+<nav class="flex py-8 px-16 border-b-1 border-pink-400">
     <div class="lex-none logo">
         <app-logo />
     </div>
-    <div class="flex flex-auto justify-end-safe buttons">
+    <div class="flex flex-auto gap-8 items-center justify-end-safe buttons">
         @if(u !== null) {
+            <a routerLink="/diet">Рацион</a>
+            <a routerLink="/water">Вода</a>
             <a routerLink="/profile">Профиль</a>
         } @else {
             <a routerLink="/login">Войти</a>

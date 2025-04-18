@@ -1,10 +1,10 @@
-<div class="h-screen grid grid-rows-[auto_1fr] register-page">
+<div class="h-screen grid grid-rows-[auto_1fr] bg-pink-200">
     <div class="logo">
         <!-- <app-logo /> -->
         <app-navigation />
     </div>
-    <div class="flex flex-col items-center justify-center formContainer">
-        <div class="p-8 rounded-xl min-w-sm formInner">
+    <div class="flex flex-col items-center justify-center">
+        <div class="p-8 rounded-xl min-w-sm bg-white">
             <h2 class="text-center text-xl">Регистрация</h2>
             <br />
             <form [formGroup]="registerForm" class="flex flex-col gap-4" action="#">
@@ -84,7 +84,7 @@
                 </div>
 
                 <button
-                    class="rounded-md p-2 cursor-pointer submitButton"
+                    class="rounded-md p-2 cursor-pointer bg-pink-200 disabled:bg-gray-200 disabled:text-gray-600"
                     (click)="nextStep()"
                     [disabled]="
                         !registerForm.controls.username.valid ||
@@ -160,12 +160,54 @@
                     }
                 </div>
 
+                <div class="flex w-full bg-pink-200 rounded-full">
+                    <!-- Women option -->
+                    <div class="w-full relative">
+                        <input
+                            formControlName="sex"
+                            id="sex_women"
+                            class="sr-only peer"
+                            type="radio"
+                            name="sex"
+                            value="0"
+                            checked
+                        />
+                        <label
+                            for="sex_women"
+                            class="w-full block py-2 px-4 rounded-full text-center cursor-pointer transition-colors duration-200 peer-checked:bg-pink-300"
+                        >
+                            Женский
+                        </label>
+                    </div>
+
+                    <!-- Men option -->
+                    <div class="w-full relative">
+                        <input
+                            formControlName="sex"
+                            id="sex_men"
+                            class="sr-only peer"
+                            type="radio"
+                            name="sex"
+                            value="1"
+                        />
+                        <label
+                            for="sex_men"
+                            class="w-full block py-2 px-4 rounded-full text-center cursor-pointer transition-colors duration-200 peer-checked:bg-pink-300"
+                        >
+                            Мужской
+                        </label>
+                    </div>
+                </div>
+
                 <div class="w-full flex gap-4">
-                    <button class="w-full rounded-md p-2 cursor-pointer submitButton" (click)="prevStep()">
+                    <button
+                        class="w-full rounded-md p-2 cursor-pointer bg-pink-200 disabled:bg-gray-200 disabled:text-gray-600"
+                        (click)="prevStep()"
+                    >
                         Назад
                     </button>
                     <button
-                        class="w-full rounded-md p-2 cursor-pointer submitButton"
+                        class="w-full rounded-md p-2 cursor-pointer bg-pink-200 disabled:bg-gray-200 disabled:text-gray-600"
                         (click)="nextStep()"
                         [disabled]="
                             !registerForm.controls.birthday.valid ||
@@ -244,11 +286,14 @@
                 </div>
 
                 <div class="w-full flex gap-4">
-                    <button class="w-full rounded-md p-2 cursor-pointer submitButton" (click)="prevStep()">
+                    <button
+                        class="w-full rounded-md p-2 cursor-pointer bg-pink-200 disabled:bg-gray-200 disabled:text-gray-600"
+                        (click)="prevStep()"
+                    >
                         Назад
                     </button>
                     <button
-                        class="w-full rounded-md p-2 cursor-pointer submitButton"
+                        class="w-full rounded-md p-2 cursor-pointer bg-pink-200 disabled:bg-gray-200 disabled:text-gray-600"
                         (click)="onSubmit()"
                         [disabled]="!registerForm.valid"
                     >

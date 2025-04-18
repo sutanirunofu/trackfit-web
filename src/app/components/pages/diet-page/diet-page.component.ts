@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 import { NavigationComponent } from "../../shared/navigation/navigation.component";
 
 @Component({
-  selector: 'app-home-page',
+  selector: 'app-diet-page',
   imports: [NavigationComponent],
-  templateUrl: './home-page.component.html',
-  styleUrl: './home-page.component.scss'
+  templateUrl: './diet-page.component.html',
+  styleUrl: './diet-page.component.scss'
 })
-export class HomePageComponent {
+export class DietPageComponent {
+
 }
