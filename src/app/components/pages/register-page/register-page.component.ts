@@ -1,7 +1,7 @@
 import { Component, inject } from "@angular/core";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { Router, RouterModule } from "@angular/router";
-import { IRegisterModel, IRegisterSuccessModel } from "./register.interface";
+import { IRegisterModel, IRegisterSuccessModel } from "../../../models/register.interface";
 import { AuthService } from "app/services/auth.service";
 import { NavigationComponent } from "../../shared/navigation/navigation.component";
 import { ToastsService } from "app/services/toasts.service";

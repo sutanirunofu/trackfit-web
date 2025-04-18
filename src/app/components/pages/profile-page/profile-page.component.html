@@ -18,12 +18,12 @@
                             />
                             <label
                                 for="avatar"
-                                class="w-full h-full block cursor-pointer hover:bg-slate-800/60"
+                                class="w-full h-full block cursor-pointer hover:bg-pink-300/40 transition"
                             ></label>
                         </div>
 
                         @if(user.avatar) {
-                        <img [src]="base64ToUrlSafe(user.avatar)" alt="Avatar" />
+                        <img class="w-full h-full object-cover" [src]="base64ToUrlSafe(user.avatar)" alt="Avatar" />
                         } @else {
                         <svg
                             viewBox="0 -1 1026 1026"

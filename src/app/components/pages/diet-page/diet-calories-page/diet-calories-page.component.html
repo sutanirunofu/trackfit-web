@@ -1,0 +1,111 @@
+<div class="flex flex-col gap-8">
+    <div class="flex justify-center gap-4">
+        <button class="cursor-pointer">
+            <img class="h-6" src="arrow-left.svg" alt="Arrow left" />
+        </button>
+        <div>Сегодня</div>
+        <button class="cursor-pointer">
+            <img class="h-6" src="arrow-right.svg" alt="Arrow right" />
+        </button>
+    </div>
+    <div class="flex justify-center">
+        <div class="grid grid-cols-3 w-full max-w-200 border-1 border-pink-300 rounded-xl">
+            <div class="w-full">
+                <h2 class="text-center border-b-1 border-pink-300 p-4">Норма</h2>
+                <p class="text-center p-4">1000</p>
+            </div>
+            <div class="w-full">
+                <h2 class="text-center border-b-1 border-pink-300 p-4">Потреблено</h2>
+                <p class="text-center p-4">800</p>
+            </div>
+            <div class="w-full">
+                <h2 class="text-center border-b-1 border-pink-300 p-4">Осталось</h2>
+                <p class="text-center p-4">200</p>
+            </div>
+        </div>
+    </div>
+    <div class="grid grid-cols-2 gap-8">
+        <div class="flex flex-col items-start gap-4">
+            <button
+                (click)="setOption(0)"
+                [ngClass]="{
+                    'bg-pink-300 text-white font-bold': option === 0
+                }"
+                class="flex justify-between w-full py-4 px-8 rounded-full bg-pink-100 cursor-pointer transition-all duration-300 ease-in-out"
+            >
+                <div>Завтрак</div>
+                <div>
+                    <img
+                        [ngClass]="{
+                            'filter brightness-0 invert': option === 0
+                        }"
+                        class="h-6 transition-all duration-300 ease-in-out"
+                        src="plus.svg"
+                        alt="Plus"
+                    />
+                </div>
+            </button>
+            <button
+                (click)="setOption(1)"
+                [ngClass]="{
+                    'bg-pink-300 text-white font-bold': option === 1
+                }"
+                class="flex justify-between w-full py-4 px-8 rounded-full bg-pink-100 cursor-pointer transition-all duration-300 ease-in-out"
+            >
+                <div>Обед</div>
+                <div>
+                    <img
+                        [ngClass]="{
+                            'filter brightness-0 invert': option === 1
+                        }"
+                        class="h-6 transition-all duration-300 ease-in-out"
+                        src="plus.svg"
+                        alt="Plus"
+                    />
+                </div>
+            </button>
+            <button
+                (click)="setOption(2)"
+                [ngClass]="{
+                    'bg-pink-300 text-white font-bold': option === 2
+                }"
+                class="flex justify-between w-full py-4 px-8 rounded-full bg-pink-100 cursor-pointer transition-all duration-300 ease-in-out"
+            >
+                <div>Ужин</div>
+                <div>
+                    <img
+                        [ngClass]="{
+                            'filter brightness-0 invert': option === 2
+                        }"
+                        class="h-6 transition-all duration-300 ease-in-out"
+                        src="plus.svg"
+                        alt="Plus"
+                    />
+                </div>
+            </button>
+            <button
+                (click)="setOption(3)"
+                [ngClass]="{
+                    'bg-pink-300 text-white font-bold': option === 3
+                }"
+                class="flex justify-between w-full py-4 px-8 rounded-full bg-pink-100 cursor-pointer transition-all duration-300 ease-in-out"
+            >
+                <div>Перекус</div>
+                <div>
+                    <img
+                        [ngClass]="{
+                            'filter brightness-0 invert': option === 3
+                        }"
+                        class="h-6 transition-all duration-300 ease-in-out"
+                        src="plus.svg"
+                        alt="Plus"
+                    />
+                </div>
+            </button>
+        </div>
+        <div class="border-1 border-pink-300 rounded-xl">
+            <h2 class="text-center p-4 border-b-1 border-pink-300">Продукты</h2>
+            <div class="p-4"></div>
+        </div>
+    </div>
+</div>

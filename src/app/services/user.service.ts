@@ -1,6 +1,6 @@
 import { inject, Injectable, PLATFORM_ID } from "@angular/core";
 import { HttpService } from "./http.service";
-import { IUser, IUserUpdateModel } from "app/components/pages/profile-page/user.interface";
+import { IUser, IUserUpdateModel } from "app/models/user.interface";
 import { EMPTY, Observable } from "rxjs";
 import { isPlatformBrowser } from "@angular/common";
 

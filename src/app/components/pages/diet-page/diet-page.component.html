@@ -1,10 +1,51 @@
+@let url = url$ | async;
+
 <div>
     <app-navigation />
-    <div class="py-8 px-16">
-        <div class="flex flex-col items-start gap-4">
-            <button class="w-full max-w-80 py-2 px-4 bg-pink-200 rounded-full">+ Завтрак</button>
-            <button>+ Обед</button>
-            <button>+ Ужин</button>
+    <div class="flex flex-col gap-8 py-8 px-16">
+        <div class="flex justify-center">
+            <div
+                class="flex justify-center w-full max-w-200 gap-4 border-1 border-pink-300 rounded-full overflow-hidden relative"
+            >
+                <a
+                    routerLink="calories"
+                    [ngClass]="{
+                    'text-white font-bold': url === 'calories',
+                }"
+                    class="w-full p-4 text-center transition-all duration-300 ease-in-out"
+                    >Калории</a
+                >
+                <a
+                    routerLink="bju"
+                    [ngClass]="{
+                    'text-white font-bold': url === 'bju',
+                }"
+                    class="w-full p-4 text-center transition-all duration-300 ease-in-out"
+                    >БЖУ</a
+                >
+                <a
+                    routerLink="recipes"
+                    [ngClass]="{
+                    'text-white font-bold': url === 'recipes',
+                }"
+                    class="w-full p-4 text-center transition-all duration-300 ease-in-out"
+                    >Рецепты</a
+                >
+
+                <div
+                    [ngClass]="{
+                        'left-0': url === 'calories',
+                        'left-1/2 -translate-x-1/2': url === 'bju',
+                        'left-full -translate-x-full': url === 'recipes'
+                    }"
+                    class="absolute w-1/3 h-full transition-all duration-300 ease-in-out z-[-1] p-2"
+                >
+                    <div class="w-full h-full bg-pink-300 rounded-full"></div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <router-outlet />
         </div>
     </div>
 </div>

@@ -1,9 +1,9 @@
 import { inject, Injectable, PLATFORM_ID } from "@angular/core";
 import { HttpService } from "./http.service";
-import { ILoginModel, ILoginSuccessModel } from "app/components/pages/login-page/login.interface";
+import { ILoginModel, ILoginSuccessModel } from "app/models/login.interface";
 import { BehaviorSubject, catchError, EMPTY, finalize, map, Observable } from "rxjs";
-import { IRegisterModel, IRegisterSuccessModel } from "app/components/pages/register-page/register.interface";
-import { IUser } from "app/components/pages/profile-page/user.interface";
+import { IRegisterModel, IRegisterSuccessModel } from "app/models/register.interface";
+import { IUser } from "app/models/user.interface";
 import { isPlatformBrowser } from "@angular/common";
 
 @Injectable({

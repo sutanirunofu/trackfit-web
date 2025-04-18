@@ -10,7 +10,6 @@ export const authGuard: CanActivateFn = (route, state) => {
     return combineLatest([authService.getIsReady$(), authService.getCurrentUser$()]).pipe(
         filter(([isReady]) => isReady),
         map(([_, user]) => {
-            console.log(user);
             if (user !== null) {
                 return true;
             }

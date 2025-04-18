@@ -1,7 +1,7 @@
 import { Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { ILoginModel, ILoginSuccessModel } from "./login.interface";
+import { ILoginModel, ILoginSuccessModel } from "../../../models/login.interface";
 import { AuthService } from "app/services/auth.service";
 import { Router, RouterModule } from "@angular/router";
 import { NavigationComponent } from "../../shared/navigation/navigation.component";
