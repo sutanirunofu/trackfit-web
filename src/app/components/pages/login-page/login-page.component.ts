@@ -7,6 +7,7 @@ import { Router, RouterModule } from "@angular/router";
 import { NavigationComponent } from "../../shared/navigation/navigation.component";
 import { ToastsService } from "app/services/toasts.service";
 import { catchError, EMPTY } from "rxjs";
+import { StorageService } from "app/services/storage.service";
 
 interface ILoginFormGroup {
     username: FormControl<string>;
@@ -20,6 +21,7 @@ interface ILoginFormGroup {
     styleUrl: "./login-page.component.scss",
 })
 export class LoginPageComponent {
+    private readonly storage = inject(StorageService);
     private readonly authService = inject(AuthService);
     private readonly toastsService = inject(ToastsService);
     private readonly router = inject(Router);
@@ -57,7 +59,7 @@ export class LoginPageComponent {
             )
             .subscribe((response: ILoginSuccessModel) => {
                 if (response.token) {
-                    localStorage.setItem("access_token", response.token);
+                    this.storage.setAccessToken(response.token);
 
                     this.authService.me$().subscribe((user) => {
                         if (user !== null) {

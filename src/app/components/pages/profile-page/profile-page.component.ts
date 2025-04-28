@@ -41,7 +41,7 @@ export class ProfilePageComponent {
             const base64String = (reader as any).result.split(",")[1];
 
             this.userService
-                .update({ avatar: base64String })
+                .update$({ avatar: base64String })
                 .pipe(
                     catchError((err) => {
                         console.log(err);

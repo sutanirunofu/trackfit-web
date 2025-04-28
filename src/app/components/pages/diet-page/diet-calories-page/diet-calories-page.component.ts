@@ -197,6 +197,10 @@ export class DietCaloriesPageComponent implements OnInit {
         const timeDiff = this.currentDate$.getValue().getTime() - new Date().getTime();
         const deltaDays = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
 
+        if (deltaDays === 0) {
+            return "Завтра";
+        }
+
         if (deltaDays === -2) {
             return "Вчера";
         }

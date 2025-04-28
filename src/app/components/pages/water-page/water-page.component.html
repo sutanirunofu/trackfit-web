@@ -1,6 +1,139 @@
-<div>
-    <app-navigation />
-    <div>
-        
+@let isReady = isReady$ | async; @let diets = waterDiets$ | async;
+
+<div class="relative h-screen">
+    <app-navigation class="absolute w-full h-fit top-0" />
+    <div class="flex justify-center h-full p-8 pt-30">
+        @if (isReady) { @if (diets) {
+        <div class="grid grid-cols-[1fr_3fr_1fr] gap-24 max-w-360">
+            <div class="flex flex-col gap-4 justify-around items-end pt-10 w-full">
+                <img class="w-1/2" src="water.svg" alt="Вода" />
+                <img class="w-1/2" src="water.svg" alt="Вода" />
+                <img class="w-1/2" src="water.svg" alt="Вода" />
+            </div>
+            <div class="flex flex-col gap-4 w-full h-full">
+                <form
+                    (submit)="createRecord()"
+                    [formGroup]="form"
+                    class="h-fit grid grid-cols-[1fr_180px] w-full border-1 border-pink-300 rounded-xl"
+                >
+                    <input
+                        formControlName="count"
+                        type="number"
+                        inputmode="numeric"
+                        placeholder="Кол-во (мл)"
+                        class="w-full h-fit outline-none py-2 px-4 border-r-1 border-pink-300 placeholder:text-gray-600"
+                    />
+                    <button
+                        type="submit"
+                        class="w-full h-fit py-2 px-4 cursor-pointer rounded-r-xl hover:bg-pink-50 disabled:bg-gray-100 disabled:text-gray-600 disabled:cursor-default"
+                        [disabled]="!form.valid"
+                    >
+                        Добавить запись
+                    </button>
+                </form>
+                <div class="flex flex-col w-full h-fit border-1 border-pink-300 rounded-xl">
+                    <div class="text-center border-b-1 border-pink-300 py-2 px-4">Дата</div>
+                    <div class="flex w-full h-fit">
+                        <button (click)="prevDay()" class="flex justify-end w-full py-2 px-4 cursor-pointer">
+                            <img class="h-6" src="arrow-left.svg" alt="Arrow left" />
+                        </button>
+                        <div class="flex justify-center w-fit py-2 px-4">{{ getCurrentDateString() }}</div>
+                        <button (click)="nextDay()" class="flex justify-start w-full py-2 px-4 cursor-pointer">
+                            <img class="h-6" src="arrow-right.svg" alt="Arrow right" />
+                        </button>
+                    </div>
+                </div>
+                <div class="h-fit grid grid-cols-3 border-1 border-pink-300 rounded-xl">
+                    <div
+                        class="w-full border-b-1 border-r-1 border-pink-300 text-center py-2 px-4 bg-pink-100 rounded-tl-xl"
+                    >
+                        Всего (мл)
+                    </div>
+                    <div class="w-full border-b-1 border-r-1 border-pink-300 text-center py-2 px-4 bg-pink-100">
+                        Норма (мл)
+                    </div>
+                    <div class="w-full border-b-1 border-pink-300 text-center py-2 px-4 bg-pink-100 rounded-tr-xl">
+                        Осталось (мл)
+                    </div>
+                    <div class="w-full border-r-1 border-pink-300 text-center py-2 px-4">{{ totalWater }}</div>
+                    <div class="w-full border-r-1 border-pink-300 text-center py-2 px-4">{{ normalWater }}</div>
+                    <div class="w-full text-center py-2 px-4">{{ deltaWater }}</div>
+                </div>
+                <div class="flex flex-col h-full border-1 border-pink-300 rounded-xl overflow-hidden">
+                    <div
+                        class="grid grid-cols-[80px_1fr_120px_280px] w-full not-last:border-b-1 not-last:border-pink-300"
+                    >
+                        <div class="border-r-1 border-pink-300 py-2 px-4 bg-pink-100">№</div>
+                        <div class="border-r-1 border-pink-300 py-2 px-4 bg-pink-100">Кол-во (мл)</div>
+                        <div class="border-r-1 border-pink-300 py-2 px-4 bg-pink-100">Время</div>
+                        <div class="py-2 px-4 bg-pink-100">Действия</div>
+                    </div>
+                    <div class="h-full max-h-[calc(100dvh-110*0.25rem)] overflow-y-auto">
+                        @for (diet of diets; track diet.id; let index = $index) {
+                        <div
+                            class="grid grid-cols-[80px_1fr_120px_280px] w-full border-b-1 border-pink-300 odd:bg-pink-50"
+                        >
+                            <div class="border-r-1 border-pink-300 py-2 px-4">{{ index + 1 }}</div>
+                            <input
+                                #countInput
+                                type="number"
+                                inputmode="numeric"
+                                [value]="diet.count"
+                                class="border-r-1 border-pink-300 py-2 px-4 bg-gray-50 disabled:bg-transparent outline-none"
+                                [disabled]="editingRecordId !== diet.id"
+                                (input)="isInputValid = countInput.validity.valid"
+                                min="1"
+                                max="100000"
+                                required
+                            />
+                            <div class="border-r-1 border-pink-300 py-2 px-4">
+                                {{ diet.creationDate | date : "HH:mm" }}
+                            </div>
+                            <div class="grid grid-cols-[1fr_120px]">
+                                @if (countInput.disabled) {
+                                <button
+                                    class="w-full h-full border-r-1 border-pink-300 hover:bg-pink-50 cursor-pointer"
+                                    (click)="editingRecordId = diet.id; isInputValid = countInput.validity.valid"
+                                >
+                                    Редактировать
+                                </button>
+                                <button
+                                    class="w-full h-full text-pink-700 hover:bg-pink-50 cursor-pointer"
+                                    (click)="removeRecord(diet.id)"
+                                >
+                                    Удалить
+                                </button>
+                                } @else {<button
+                                    class="w-full h-full border-r-1 text-pink-700 border-pink-300 hover:bg-pink-50 cursor-pointer"
+                                    (click)="editingRecordId = ''; countInput.valueAsNumber = diet.count"
+                                >
+                                    Отмена
+                                </button>
+                                <button
+                                    class="w-full h-full hover:bg-green-100 cursor-pointer disabled:bg-gray-100 disabled:text-gray-600 disabled:cursor-default"
+                                    (click)="editRecord(diet.id, countInput.valueAsNumber); countInput.disabled = true"
+                                    [disabled]="!isInputValid"
+                                >
+                                    Сохранить</button
+                                >}
+                            </div>
+                        </div>
+                        } @empty {
+                        <p class="p-4">Пусто</p>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col gap-4 justify-around items-start pt-10 w-full">
+                <img class="w-1/2" src="water.svg" alt="Вода" />
+                <img class="w-1/2" src="water.svg" alt="Вода" />
+                <img class="w-1/2" src="water.svg" alt="Вода" />
+            </div>
+        </div>
+        } @else {
+        <p class="p-4">Ошибка загрузки данных рациона</p>
+        } } @else {
+        <p class="p-4">Загрузка данных рациона...</p>
+        }
     </div>
 </div>

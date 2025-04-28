@@ -1,4 +1,5 @@
 import { IDiet } from "./diet.interface";
+import { IWaterDiet } from "./water.interface";
 
 export interface IUserGoalType {
     id: string;
@@ -22,6 +23,7 @@ export interface IUser {
     goal: IUserGoal;
     avatar?: string;
     diets: IDiet[];
+    waterDiets: IWaterDiet[];
     registrationDate: string;
     modificationDate: string;
 }

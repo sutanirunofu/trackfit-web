@@ -1,0 +1,107 @@
+@let isReady = isReady$ | async; @let user = user$ | async;
+
+<div class="relative h-screen">
+    <app-navigation class="absolute w-full" />
+    <main class="h-full">
+        <div class="h-full flex justify-center items-center">
+            @if (isReady) { @if (user) {
+            <div class="w-full max-w-100 flex flex-col gap-4">
+                <a class="text-blue-500" routerLink="/profile">Назад в профиль</a>
+                <h2 class="text-xl text-center">Редактирование профиля</h2>
+                <form
+                    (submit)="editProfile()"
+                    [formGroup]="form"
+                    class="flex flex-col gap-4 w-full border-1 border-pink-300 p-8 rounded-xl"
+                >
+                    <input
+                        formControlName="firstName"
+                        type="text"
+                        placeholder="Имя"
+                        class="w-full outline-none border-b-1 border-pink-300 py-2 px-4"
+                    />
+                    <div class="flex w-full bg-pink-200 rounded-full">
+                        <!-- Women option -->
+                        <div class="w-full relative">
+                            <input
+                                formControlName="sex"
+                                id="sex_women"
+                                class="sr-only peer"
+                                type="radio"
+                                name="sex"
+                                [value]="0"
+                                [checked]="form.value.sex === 0"
+                            />
+                            <label
+                                for="sex_women"
+                                class="w-full block py-2 px-4 rounded-full text-center cursor-pointer transition-colors duration-200 peer-checked:bg-pink-300"
+                            >
+                                Женский
+                            </label>
+                        </div>
+
+                        <!-- Men option -->
+                        <div class="w-full relative">
+                            <input
+                                formControlName="sex"
+                                id="sex_men"
+                                class="sr-only peer"
+                                type="radio"
+                                name="sex"
+                                [value]="1"
+                                [checked]="form.value.sex === 1"
+                            />
+                            <label
+                                for="sex_men"
+                                class="w-full block py-2 px-4 rounded-full text-center cursor-pointer transition-colors duration-200 peer-checked:bg-pink-300"
+                            >
+                                Мужской
+                            </label>
+                        </div>
+                    </div>
+                    <p class="flex items-center gap-2 w-full">
+                        Рост:
+                        <input
+                            formControlName="height"
+                            type="number"
+                            inputmode="numeric"
+                            placeholder="Рост"
+                            class="w-full placeholder:text-gray-600 outline-none border-b-1 border-pink-300 py-2 px-4"
+                        />
+                    </p>
+                    <p class="flex items-center gap-2 w-full">
+                        Вес:
+                        <input
+                            formControlName="weight"
+                            type="number"
+                            inputmode="numeric"
+                            placeholder="Вес"
+                            class="w-full placeholder:text-gray-600 outline-none border-b-1 border-pink-300 py-2 px-4"
+                        />
+                    </p>
+                    <div class="flex gap-2">
+                        <button
+                            (click)="reset()"
+                            type="button"
+                            class="w-full border-1 border-pink-300 rounded-full py-2 px-4 disabled:text-gray-600 disabled:border-gray-400 cursor-pointer disabled:cursor-default"
+                            [disabled]="!form.dirty"
+                        >
+                            Отменить
+                        </button>
+                        <button
+                            type="submit"
+                            class="w-full border-1 border-pink-300 rounded-full py-2 px-4 disabled:text-gray-600 disabled:border-gray-400 cursor-pointer disabled:cursor-default"
+                            [disabled]="!form.valid"
+                        >
+                            Сохранить
+                        </button>
+                    </div>
+                </form>
+            </div>
+            } @else {
+            <p class="p-4">Ошибка загрузки данных профиля</p>
+            } } @else {
+            <p class="p-4">Загрузка данных профиля...</p>
+            }
+        </div>
+    </main>
+</div>

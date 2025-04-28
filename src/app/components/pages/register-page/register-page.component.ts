@@ -6,6 +6,7 @@ import { AuthService } from "app/services/auth.service";
 import { NavigationComponent } from "../../shared/navigation/navigation.component";
 import { ToastsService } from "app/services/toasts.service";
 import { catchError, EMPTY } from "rxjs";
+import { StorageService } from "app/services/storage.service";
 
 type goalType = "Похудеть" | "Набрать" | "Норма";
 
@@ -28,6 +29,7 @@ interface IRegisterForm {
     styleUrl: "./register-page.component.scss",
 })
 export class RegisterPageComponent {
+    private readonly storage = inject(StorageService);
     private readonly authService = inject(AuthService);
     private readonly router = inject(Router);
     private readonly toastsService = inject(ToastsService);
@@ -53,8 +55,8 @@ export class RegisterPageComponent {
             ],
         }),
         sex: new FormControl<number>(0, {
-           nonNullable: true,
-           validators: [Validators.required, Validators.min(0), Validators.max(1)], 
+            nonNullable: true,
+            validators: [Validators.required, Validators.min(0), Validators.max(1)],
         }),
         birthday: new FormControl<string>(new Date().toISOString(), {
             nonNullable: true,
@@ -122,19 +124,23 @@ export class RegisterPageComponent {
             return;
         }
 
-        this.authService.register$(registerModel)
-        .pipe(catchError(err => {
-            this.toastsService.addToast(err?.error?.message ?? "Что-то пошло не так", "error")
-            return EMPTY;
-        })).subscribe((response: IRegisterSuccessModel) => {
-            if (response.token) {
-                localStorage.setItem("access_token", response.token);
+        this.authService
+            .register$(registerModel)
+            .pipe(
+                catchError((err) => {
+                    this.toastsService.addToast(err?.error?.message ?? "Что-то пошло не так", "error");
+                    return EMPTY;
+                })
+            )
+            .subscribe((response: IRegisterSuccessModel) => {
+                if (response.token) {
+                    this.storage.setAccessToken(response.token);
 
-                this.authService.me$().subscribe((me) => {
-                    this.toastsService.addToast("Успешная регистрация", "success")
-                    this.router.navigate(["/profile"]);
-                });
-            }
-        });
+                    this.authService.me$().subscribe((me) => {
+                        this.toastsService.addToast("Успешная регистрация", "success");
+                        this.router.navigate(["/profile"]);
+                    });
+                }
+            });
     }
 }

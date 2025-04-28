@@ -5,16 +5,18 @@ import { BehaviorSubject, catchError, EMPTY, finalize, map, Observable } from "r
 import { IRegisterModel, IRegisterSuccessModel } from "app/models/register.interface";
 import { IUser } from "app/models/user.interface";
 import { isPlatformBrowser } from "@angular/common";
+import { StorageService } from "./storage.service";
 
 @Injectable({
     providedIn: "root",
 })
 export class AuthService {
     private readonly http = inject(HttpService);
+    private readonly storage = inject(StorageService);
     private readonly currentUser$ = new BehaviorSubject<IUser | null>(null);
     private readonly isReady$ = new BehaviorSubject<boolean>(true);
     private readonly platformId = inject(PLATFORM_ID);
-    
+
     public getIsReady$(): Observable<boolean> {
         return this.isReady$;
     }
@@ -46,9 +48,7 @@ export class AuthService {
 
         this.isReady$.next(false);
 
-        const token = localStorage.getItem("access_token");
-
-        return this.http.get<IUser>("/Auth/Me", { Authorization: `Bearer ${token}` }).pipe(
+        return this.http.get<IUser>("/Auth/Me", { Authorization: `Bearer ${this.storage.getAccessToken()}` }).pipe(
             map((response) => {
                 this.currentUser$.next(response);
                 return response;
@@ -68,7 +68,7 @@ export class AuthService {
             return;
         }
 
-        localStorage.removeItem("access_token");
+        this.storage.clearAccessToken();
         this.currentUser$.next(null);
     }
 }

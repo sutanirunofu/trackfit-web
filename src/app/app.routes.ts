@@ -33,6 +33,15 @@ export const routes: Routes = [
         canActivate: [authGuard],
     },
     {
+        path: "profile/edit",
+        title: "Редактирование профиля - TrackFit",
+        loadComponent: () =>
+            import("./components/pages/edit-profile-page/edit-profile-page.component").then(
+                (m) => m.EditProfilePageComponent
+            ),
+        canActivate: [authGuard],
+    },
+    {
         path: "diet",
         title: "Рацион - TrackFit",
         loadComponent: () =>
