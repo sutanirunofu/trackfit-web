@@ -42,6 +42,13 @@ export const routes: Routes = [
         canActivate: [authGuard],
     },
     {
+        path: "goal-edit",
+        title: "Редактирование цели - TrackFit",
+        loadComponent: () =>
+            import("./components/pages/edit-goal-page/edit-goal-page.component").then((m) => m.EditGoalPageComponent),
+        canActivate: [authGuard],
+    },
+    {
         path: "diet",
         title: "Рацион - TrackFit",
         loadComponent: () =>
@@ -84,6 +91,22 @@ export const routes: Routes = [
         title: "Вода - TrackFit",
         loadComponent: () =>
             import("./components/pages/water-page/water-page.component").then((m) => m.WaterPageComponent),
+        canActivate: [authGuard],
+    },
+    {
+        path: "trainings",
+        title: "Тренировки - TrackFit",
+        loadComponent: () =>
+            import("./components/pages/trainings-page/trainings-page.component").then((m) => m.TrainingsPageComponent),
+        canActivate: [authGuard],
+    },
+    {
+        path: "create-product",
+        title: "Создание продукта - TrackFit",
+        loadComponent: () =>
+            import("./components/pages/create-product-page/create-product-page.component").then(
+                (m) => m.CreateProductPageComponent
+            ),
         canActivate: [authGuard],
     },
     {

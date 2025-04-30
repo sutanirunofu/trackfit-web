@@ -52,8 +52,12 @@ export class LoginPageComponent {
         this.authService
             .login$(loginModel)
             .pipe(
-                catchError((err) => {
-                    this.toastsService.addToast(err?.error?.message ?? "Что-то пошло не так", "error");
+                catchError((error) => {
+                    if (error?.error?.message) {
+                        this.toastsService.addToast(error.error.message, "error");
+                    } else {
+                        this.toastsService.addToast("Что-то пошло не так", "error");
+                    }
                     return EMPTY;
                 })
             )

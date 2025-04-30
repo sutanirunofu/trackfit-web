@@ -90,7 +90,7 @@
                         <button
                             type="submit"
                             class="w-full border-1 border-pink-300 rounded-full py-2 px-4 disabled:text-gray-600 disabled:border-gray-400 cursor-pointer disabled:cursor-default"
-                            [disabled]="!form.valid"
+                            [disabled]="!form.valid || !form.dirty"
                         >
                             Сохранить
                         </button>

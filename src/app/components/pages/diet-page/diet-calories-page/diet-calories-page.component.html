@@ -108,7 +108,7 @@
             </div>
         </button>
     </div>
-    <div class="grid grid-cols-[1fr_2fr] gap-4 h-full">
+    <div class="grid grid-cols-[2fr_3fr] gap-4 h-full">
         <div class="border-1 border-pink-300 rounded-xl">
             <div class="grid grid-cols-2 items-center gap-4 p-2 border-b-1 border-pink-300">
                 <div class="text-center border-r-2 border-slate-300">{{ getDietTypeFrom(option) }}</div>
@@ -151,7 +151,8 @@
         </div>
         <div class="border-1 border-pink-300 rounded-xl">
             <div class="flex gap-4 p-4 border-b-1 border-pink-300">
-                <h2 class="border-r-2 border-slate-300 pr-4">Продукты</h2>
+                <a class="text-blue-500 border-r-1 border-slate-300 pr-4" routerLink="/create-product">Свой продукт</a>
+                <h2 class="border-r-1 border-slate-300 pr-4">Продукты</h2>
                 <input (input)="search($event)" type="text" class="outline-none" placeholder="Поиск..." />
             </div>
             <div class="grid grid-cols-[4fr_140px_140px_140px_140px] border-b-1 border-pink-300 bg-pink-100">
@@ -168,7 +169,7 @@
                     @for(product of products; track product.id) {
                     <button
                         (click)="selectProduct(product)"
-                        class="h-fit grid grid-cols-[4fr_140px_140px_140px_140px] border-b-1 border-pink-300 hover:bg-pink-50 cursor-pointer transition-all duration-300 ease-in-out"
+                        class="h-fit grid grid-cols-[4fr_140px_140px_140px_140px] border-b-1 border-pink-300 hover:bg-pink-100 cursor-pointer transition-all even:bg-pink-50 duration-300 ease-in-out"
                     >
                         <p class="py-2 px-4 text-center border-r-1 border-pink-300">{{ product.name }}</p>
                         <p class="py-2 px-4 text-center border-r-1 border-pink-300">{{ product.calories }}</p>
@@ -182,7 +183,7 @@
         </div>
     </div>
     <div class="flex flex-col gap-4">
-        <h2>Рацион</h2>
+        <h2 class="text-xl">Рацион</h2>
         <div class="border-1 border-pink-300 rounded-xl overflow-hidden">
             <div class="grid grid-cols-6 border-b-1 border-pink-300 bg-pink-100">
                 <div class="border-r-1 border-pink-300 py-2 px-4">Тип</div>

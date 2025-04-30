@@ -1,0 +1,56 @@
+@let isReady = isReady$ | async;
+
+<div class="relative h-screen profile-page">
+    <app-navigation class="absolute w-full" />
+    <main class="flex justify-center items-center w-full h-full">
+        <div class="flex flex-col gap-4 w-full max-w-100">
+            <a routerLink="/diet/calories" class="text-blue-500">Назад к рациону</a>
+            <div class="flex flex-col gap-4 w-full border-1 border-pink-300 rounded-xl p-8">
+                <h1 class="text-center text-xl">Добавление продукта</h1>
+                <form (submit)="createProduct()" [formGroup]="form" class="flex flex-col gap-2">
+                    <input
+                        formControlName="name"
+                        class="w-full border-b-1 border-pink-300 py-2 px-4 placeholder:text-gray-600 outline-none"
+                        type="text"
+                        placeholder="Название"
+                    />
+                    <input
+                        formControlName="calories"
+                        class="w-full border-b-1 border-pink-300 py-2 px-4 placeholder:text-gray-600 outline-none"
+                        type="number"
+                        inputmode="numeric"
+                        placeholder="Калории"
+                    />
+                    <input
+                        formControlName="proteins"
+                        class="w-full border-b-1 border-pink-300 py-2 px-4 placeholder:text-gray-600 outline-none"
+                        type="number"
+                        inputmode="numeric"
+                        placeholder="Белки"
+                    />
+                    <input
+                        formControlName="fats"
+                        class="w-full border-b-1 border-pink-300 py-2 px-4 placeholder:text-gray-600 outline-none"
+                        type="number"
+                        inputmode="numeric"
+                        placeholder="Жиры"
+                    />
+                    <input
+                        formControlName="carbohydrates"
+                        class="w-full border-b-1 border-pink-300 py-2 px-4 placeholder:text-gray-600 outline-none"
+                        type="number"
+                        inputmode="numeric"
+                        placeholder="Углеводы"
+                    />
+                    <button
+                        class="w-full border-1 border-pink-300 rounded-full py-2 px-4 mt-4 cursor-pointer disabled:border-gray-400 disabled:text-gray-600 disabled:cursor-default"
+                        type="submit"
+                        [disabled]="!form.valid"
+                    >
+                        Добавить
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>

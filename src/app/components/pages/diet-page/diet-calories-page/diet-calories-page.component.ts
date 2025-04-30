@@ -1,12 +1,13 @@
 import { CommonModule, NgClass } from "@angular/common";
 import { Component, inject, OnInit } from "@angular/core";
+import { RouterLink } from "@angular/router";
 import { dietTypeEnum, ICreateDietDto, IDiet } from "app/models/diet.interface";
 import { IProduct } from "app/models/product.interface";
 import { AuthService } from "app/services/auth.service";
 import { DietsService } from "app/services/diets.service";
 import { ProductsService } from "app/services/products.service";
 import { ToastsService } from "app/services/toasts.service";
-import { BehaviorSubject, catchError, EMPTY, exhaustMap, first, map, Observable } from "rxjs";
+import { BehaviorSubject, catchError, combineLatest, EMPTY, exhaustMap, first, map, Observable } from "rxjs";
 
 interface ISelectedProduct {
     id: string;
@@ -16,7 +17,7 @@ interface ISelectedProduct {
 
 @Component({
     selector: "app-diet-calories-page",
-    imports: [NgClass, CommonModule],
+    imports: [NgClass, CommonModule, RouterLink],
     templateUrl: "./diet-calories-page.component.html",
     styleUrl: "./diet-calories-page.component.scss",
 })
@@ -37,8 +38,8 @@ export class DietCaloriesPageComponent implements OnInit {
     public option: number = 0;
 
     ngOnInit(): void {
-        this.products$.pipe(first()).subscribe((products) => {
-            this.filteredProducts$.next(products);
+        combineLatest([this.user$, this.products$]).subscribe(([user, products]) => {
+            this.filteredProducts$.next([...(user?.products ?? []), ...products]);
         });
     }
 
@@ -50,15 +51,16 @@ export class DietCaloriesPageComponent implements OnInit {
         const inputElem = event.target as HTMLInputElement;
         const searchText = inputElem.value;
 
-        this.products$
+        combineLatest([this.user$, this.products$])
             .pipe(
                 first(),
-                map((products) =>
-                    products.filter((product) => product.name.toLowerCase().includes(searchText.toLowerCase()))
+                map(([user, products]) =>
+                    [...(user?.products ?? []), ...products].filter((product) =>
+                        product.name.toLowerCase().includes(searchText.toLowerCase())
+                    )
                 )
             )
             .subscribe((filteredProducts) => {
-                console.log(filteredProducts);
                 this.filteredProducts$.next(filteredProducts);
             });
     }

@@ -11,5 +11,5 @@ export class ProductsService {
 
   public getAll$(): Observable<IProduct[]> {
     return this.http.get<IProduct[]>("/Product");
-  } 
+  }
 }

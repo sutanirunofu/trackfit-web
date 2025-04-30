@@ -61,8 +61,8 @@ export class WaterPageComponent implements OnInit {
             .create$(createWaterDietRecordModel)
             .pipe(
                 catchError((error) => {
-                    if (error.message) {
-                        this.toastsService.addToast(error.message, "error");
+                    if (error?.error?.message) {
+                        this.toastsService.addToast(error.error.message, "error");
                     } else {
                         this.toastsService.addToast("Что-то пошло не так", "error");
                     }
@@ -88,8 +88,8 @@ export class WaterPageComponent implements OnInit {
             .updateById$(recordId, updateWaterDietModel)
             .pipe(
                 catchError((error) => {
-                    if (error.message) {
-                        this.toastsService.addToast(error.message, "error");
+                    if (error?.error?.message) {
+                        this.toastsService.addToast(error.error.message, "error");
                     } else {
                         this.toastsService.addToast("Что-то пошло не так", "error");
                     }
@@ -113,8 +113,8 @@ export class WaterPageComponent implements OnInit {
                 .deleteById$(recordId)
                 .pipe(
                     catchError((error) => {
-                        if (error.message) {
-                            this.toastsService.addToast(error.message, "error");
+                        if (error?.error?.message) {
+                            this.toastsService.addToast(error.error.message, "error");
                         } else {
                             this.toastsService.addToast("Что-то пошло не так", "error");
                         }

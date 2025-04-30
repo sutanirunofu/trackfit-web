@@ -64,8 +64,8 @@ export class EditProfilePageComponent implements OnInit {
             .update$(userUpdateModel)
             .pipe(
                 catchError((error) => {
-                    if (error.message) {
-                        this.toastsService.addToast(error.message, "error");
+                    if (error?.error?.message) {
+                        this.toastsService.addToast(error.error.message, "error");
                     } else {
                         this.toastsService.addToast("Что-то пошло не так", "error");
                     }

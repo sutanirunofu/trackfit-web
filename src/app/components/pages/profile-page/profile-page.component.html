@@ -108,6 +108,9 @@
             <div class="flex flex-col gap-4 px-16 py-8 border-b-1 border-pink-400">
                 <h1>Цель - {{ user.goal.type.name }}</h1>
                 <div class="w-full max-w-80 bg-pink-100 py-2 px-4 rounded-full">До {{ user.goal.weight }} кг</div>
+                <a routerLink="/goal-edit" class="w-fit border-1 border-pink-300 py-2 px-4 rounded-full cursor-pointer">
+                    Редактировать цель
+                </a>
             </div>
         </div>
         } @else {

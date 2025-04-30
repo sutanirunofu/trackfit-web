@@ -1,0 +1,94 @@
+@let isReady = isReady$ | async; @let user = user$ | async;
+
+<div class="relative h-screen profile-page">
+    <app-navigation class="absolute w-full" />
+    <main class="flex justify-center items-center w-full h-full">
+        @if (isReady) { @if (user) {
+        <div class="w-full max-w-120 h-fit flex flex-col gap-4">
+            <a class="text-blue-500" routerLink="/profile">Назад профиль</a>
+            <h1 class="text-center text-xl">Редактирование целей</h1>
+            <form
+                (submit)="saveChanges()"
+                [formGroup]="form"
+                class="w-full h-fit flex flex-col gap-4 border-1 border-pink-300 rounded-xl p-8"
+            >
+                <div class="w-full h-16 grid grid-cols-3 border-1 border-pink-300 p-2 rounded-full">
+                    <div class="w-full h-full">
+                        <input
+                            id="goal_1"
+                            class="sr-only peer"
+                            formControlName="goalTypeName"
+                            type="radio"
+                            name="goalTypeName"
+                            value="Похудеть"
+                        />
+                        <label
+                            for="goal_1"
+                            class="flex justify-center items-center w-full h-full rounded-full peer-checked:bg-pink-100 cursor-pointer"
+                            >Похудеть</label
+                        >
+                    </div>
+                    <div class="w-full h-full">
+                        <input
+                            id="goal_2"
+                            class="sr-only peer"
+                            type="radio"
+                            formControlName="goalTypeName"
+                            name="goalTypeName"
+                            value="Набрать"
+                        />
+                        <label
+                            for="goal_2"
+                            class="flex justify-center items-center w-full h-full rounded-full peer-checked:bg-pink-100 cursor-pointer"
+                            >Набрать</label
+                        >
+                    </div>
+                    <div class="w-full h-full">
+                        <input
+                            id="goal_3"
+                            class="sr-only peer"
+                            type="radio"
+                            formControlName="goalTypeName"
+                            name="goalTypeName"
+                            value="Норма"
+                        />
+                        <label
+                            for="goal_3"
+                            class="flex justify-center items-center w-full h-full rounded-full peer-checked:bg-pink-100 cursor-pointer"
+                            >Норма</label
+                        >
+                    </div>
+                </div>
+                <input
+                    class="w-full py-2 px-4 border-b-1 border-pink-300 outline-none placeholder:text-gray-600"
+                    formControlName="goalWeight"
+                    type="number"
+                    inputmode="numeric"
+                    placeholder="Целевой вес"
+                />
+                <div class="grid grid-cols-2 gap-2 mt-4">
+                    <button
+                        class="w-full border-1 border-pink-300 rounded-xl py-2 px-4 cursor-pointer disabled:border-gray-400 disabled:text-gray-600 disabled:cursor-default"
+                        (click)="resetChanges()"
+                        type="button"
+                        [disabled]="!form.dirty"
+                    >
+                        Отмена
+                    </button>
+                    <button
+                        class="w-full border-1 border-pink-300 rounded-xl py-2 px-4 cursor-pointer disabled:border-gray-400 disabled:text-gray-600 disabled:cursor-default"
+                        type="submit"
+                        [disabled]="!form.valid || !form.dirty"
+                    >
+                        Сохранить
+                    </button>
+                </div>
+            </form>
+        </div>
+        } @else {
+        <p>Не удалось загрузить цели</p>
+        } } @else {
+        <p>Загрузка ваших целей...</p>
+        }
+    </main>
+</div>
