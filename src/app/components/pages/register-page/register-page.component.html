@@ -219,47 +219,53 @@
                     </button>
                 </div>
                 } @case (2) {
-                <div class="flex gap-4">
-                    <input
-                        id="goalType1"
-                        formControlName="goalType"
-                        name="goalType"
-                        class="hidden"
-                        type="radio"
-                        value="Похудеть"
-                        inputmode="numeric"
-                        required
-                        checked
-                    />
-                    <label for="goalType1" class="w-full py-2 text-center rounded-md inputOption cursor-pointer"
-                        >Похудеть</label
-                    >
-                    <input
-                        id="goalType2"
-                        formControlName="goalType"
-                        name="goalType"
-                        class="hidden"
-                        type="radio"
-                        value="Набрать"
-                        inputmode="numeric"
-                        required
-                    />
-                    <label for="goalType2" class="w-full py-2 text-center rounded-md inputOption cursor-pointer"
-                        >Набрать</label
-                    >
-                    <input
-                        id="goalType3"
-                        formControlName="goalType"
-                        name="goalType"
-                        class="hidden"
-                        type="radio"
-                        value="Норма"
-                        inputmode="numeric"
-                        required
-                    />
-                    <label for="goalType3" class="w-full py-2 text-center rounded-md inputOption cursor-pointer"
-                        >Норма</label
-                    >
+                <div class="w-full h-16 grid grid-cols-3 border-1 border-pink-300 p-2 rounded-full">
+                    <div class="w-full h-full">
+                        <input
+                            id="goal_1"
+                            class="sr-only peer"
+                            formControlName="goalTypeName"
+                            type="radio"
+                            name="goalTypeName"
+                            value="Похудеть"
+                            checked
+                        />
+                        <label
+                            for="goal_1"
+                            class="flex justify-center items-center w-full h-full rounded-full peer-checked:bg-pink-100 cursor-pointer"
+                            >Похудеть</label
+                        >
+                    </div>
+                    <div class="w-full h-full">
+                        <input
+                            id="goal_2"
+                            class="sr-only peer"
+                            type="radio"
+                            formControlName="goalTypeName"
+                            name="goalTypeName"
+                            value="Набрать"
+                        />
+                        <label
+                            for="goal_2"
+                            class="flex justify-center items-center w-full h-full rounded-full peer-checked:bg-pink-100 cursor-pointer"
+                            >Набрать</label
+                        >
+                    </div>
+                    <div class="w-full h-full">
+                        <input
+                            id="goal_3"
+                            class="sr-only peer"
+                            type="radio"
+                            formControlName="goalTypeName"
+                            name="goalTypeName"
+                            value="Норма"
+                        />
+                        <label
+                            for="goal_3"
+                            class="flex justify-center items-center w-full h-full rounded-full peer-checked:bg-pink-100 cursor-pointer"
+                            >Норма</label
+                        >
+                    </div>
                 </div>
 
                 <div>

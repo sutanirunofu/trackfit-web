@@ -10,18 +10,6 @@ import { StorageService } from "app/services/storage.service";
 
 type goalType = "Похудеть" | "Набрать" | "Норма";
 
-interface IRegisterForm {
-    username: FormControl<string>;
-    firstName: FormControl<string>;
-    password: FormControl<string>;
-    sex: FormControl<number>;
-    birthday: FormControl<string>;
-    height: FormControl<number | null>;
-    weight: FormControl<number | null>;
-    goalType: FormControl<goalType>;
-    goalWeight: FormControl<number | null>;
-}
-
 @Component({
     selector: "app-register-page",
     imports: [RouterModule, ReactiveFormsModule, NavigationComponent],
@@ -34,9 +22,9 @@ export class RegisterPageComponent {
     private readonly router = inject(Router);
     private readonly toastsService = inject(ToastsService);
 
-    public step: number = 0;
+    public step: number = 2;
 
-    public readonly registerForm: FormGroup<IRegisterForm> = new FormGroup({
+    public readonly registerForm = new FormGroup({
         username: new FormControl<string>("", {
             nonNullable: true,
             validators: [Validators.required, Validators.minLength(4), Validators.maxLength(50)],
@@ -87,11 +75,11 @@ export class RegisterPageComponent {
             nonNullable: true,
             validators: [Validators.required, Validators.min(10), Validators.max(500)],
         }),
-        goalType: new FormControl<goalType>("Похудеть", {
+        goalTypeName: new FormControl<goalType>("Похудеть", {
             nonNullable: true,
             validators: [Validators.required],
         }),
-        goalWeight: new FormControl<number | null>(0, {
+        goalWeight: new FormControl<number | null>(null, {
             nonNullable: true,
             validators: [Validators.required, Validators.min(10), Validators.max(500)],
         }),
@@ -116,7 +104,7 @@ export class RegisterPageComponent {
             birthday: data.birthday ?? new Date().toISOString(),
             height: data.height ?? 0,
             weight: data.weight ?? 0,
-            goalType: data.goalType ?? "",
+            goalType: data.goalTypeName ?? "",
             goalWeight: data.goalWeight ?? 0,
         };
 
