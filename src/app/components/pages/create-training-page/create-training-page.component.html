@@ -1,0 +1,123 @@
+<div class="relative h-fit min-h-screen">
+    <app-navigation class="absolute w-full" />
+    <main class="flex justify-center h-full min-h-screen bg-pink-100">
+        <div class="w-full h-full min-h-screen max-w-280 bg-white pt-24">
+            <div class="w-full border-b-1 border-pink-600 p-8">
+                <a routerLink="/trainings" class="block text-blue-500 pb-8">Назад к тренировкам</a>
+                <h1 class="text-2xl">Публикация тренировки</h1>
+            </div>
+            <form [formGroup]="form" (submit)="publish()" class="flex flex-col gap-4 w-full h-fit p-8">
+                <div class="w-full border-b-1 border-gray-300 pb-8">
+                    <input
+                        id="preview_url"
+                        class="sr-only peer"
+                        type="file"
+                        (input)="selectPreviewImage($event)"
+                        accept=".jpg, .png"
+                    />
+                    <label
+                        for="preview_url"
+                        class="relative flex justify-center items-center gap-4 w-full max-w-[560px] h-[315px] bg-gray-200/75 rounded-xl text-gray-600 cursor-pointer overflow-hidden"
+                    >
+                        <img class="w-12" src="preview.svg" alt="Иконка картинки" />
+                        <p>Превью</p>
+
+                        @if (form.value.previewUrl) {
+                        <img
+                            class="absolute left-0 top-0 w-full h-full object-cover"
+                            [src]="base64ToUrlSafe(form.value.previewUrl)"
+                            alt="Превью тренировки"
+                        />
+                        }
+                    </label>
+
+                    @if (form.value.previewUrl) {
+                    <button
+                        type="button"
+                        (click)="removePreview()"
+                        class="bg-pink-200 py-2 px-4 rounded-full mt-4 cursor-pointer"
+                    >
+                        Удалить превью
+                    </button>
+                    }
+                </div>
+                <div class="w-full">
+                    <input
+                        class="w-full border-b-1 border-pink-600 py-2 px-4 placeholder:text-gray-600 outline-none"
+                        formControlName="title"
+                        type="text"
+                        placeholder="Название тренировки"
+                    />
+                    <div class="grid grid-cols-[1fr_auto]">
+                        @if (form.controls.title.invalid && (form.controls.title.dirty || form.controls.title.touched))
+                        {
+                        <div class="text-red-500 text-sm mt-1">
+                            @if (form.controls.title.errors?.['required']) {
+                            <p>Название тренировки обязательно</p>
+                            } @if (form.controls.title.errors?.['minLength']) {
+                            <p>Название тренировки должно быть от 2 до 50 символов</p>
+                            } @if (form.controls.title.errors?.['maxLength']) {
+                            <p>Название тренировки должно быть от 2 до 50 символов</p>
+                            }
+                        </div>
+                        <small class="block w-full text-right mt-2 text-gray-600"
+                            >Кол-во символов {{ form.value.title?.length }}/50</small
+                        >
+                        }
+                    </div>
+                </div>
+                <div>
+                    <textarea
+                        class="w-full h-60 min-h-40 max-4-120 border-1 border-gray-300 rounded-xl outline-none p-4 placeholder:text-gray-600"
+                        formControlName="body"
+                        placeholder="Описание тренировки"
+                    ></textarea>
+                    <div class="grid grid-cols-[1fr_auto]">
+                        @if (form.controls.body.invalid && (form.controls.body.dirty || form.controls.body.touched)) {
+                        <div class="text-red-500 text-sm mt-1">
+                            @if (form.controls.body.errors?.['required']) {
+                            <p>Описание тренировки обязательно</p>
+                            } @if (form.controls.body.errors?.['minLength']) {
+                            <p>Описание тренировки должно быть от 50 до 5000 символов</p>
+                            } @if (form.controls.body.errors?.['maxLength']) {
+                            <p>Описание тренировки должно быть от 50 до 5000 символов</p>
+                            }
+                        </div>
+                        <small class="block w-full text-right mt-2 text-gray-600"
+                            >Кол-во символов {{ form.value.body?.length }}/5000</small
+                        >
+                        }
+                    </div>
+                </div>
+                <div class="mt-4">
+                    @if (form.value.videoUrl) {
+                    <iframe
+                        class="rounded-xl"
+                        width="560"
+                        height="315"
+                        [src]="getSafeYoutubeUrl(form.value.videoUrl)"
+                        title="YouTube video player"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allowfullscreen
+                    ></iframe>
+                    }
+                    <input
+                        formControlName="videoUrl"
+                        class="w-full border-b-1 border-pink-600 py-2 px-4 placeholder:text-gray-600 outline-none mt-4"
+                        type="text"
+                        placeholder="Ссылка на видео YouTube"
+                    />
+                </div>
+                <button
+                    class="py-2 px-8 bg-pink-200 rounded-full mt-4 cursor-pointer disabled:bg-gray-200 disabled:text-gray-600 disabled:cursor-default"
+                    type="submit"
+                    [disabled]="!form.enabled || !form.valid"
+                >
+                    Опубликовать
+                </button>
+            </form>
+        </div>
+    </main>
+</div>

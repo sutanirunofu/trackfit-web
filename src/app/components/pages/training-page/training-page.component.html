@@ -1,0 +1,60 @@
+@let isReady = isReady$ | async; @let training = training$ | async;
+
+<div class="relative h-full min-h-screen">
+    <app-navigation class="absolute w-full" />
+    <main class="flex justify-center h-full min-h-screen bg-pink-100 pt-24">
+        <div class="w-full h-full max-w-280 bg-white">
+            @if (isReady) { @if (training) {
+            <div>
+                <div class="w-full">
+                    @if (training.videoUrl) {
+                    <iframe
+                        class="w-full h-auto aspect-16/9"
+                        [src]="getSafeYoutubeUrl(training.videoUrl)"
+                        title="YouTube video player"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allowfullscreen
+                    ></iframe>
+                    } @else {
+                    <img
+                        class="w-full h-full object-cover"
+                        [src]="base64ToUrlSafe(training.previewUrl)"
+                        alt="Превью тренировки"
+                    />
+                    }
+                </div>
+                <div class="px-8 mt-4">
+                    <small class="block text-sm text-gray-600 mt-2"
+                            >Опубликовано {{ training.creationDate | date : "short" }}</small
+                        >
+                </div>
+                <div class="flex gap-2 items-center px-8 pt-4">
+                    @if (training?.author?.avatar) {
+                    <img
+                        class="w-10 h-10 object-cover rounded-full"
+                        [src]="base64ToUrlSafe(training.author.avatar ?? '')"
+                        alt=""
+                    />
+                    } @else {
+                    <div class="w-8 h-8 rounded-full bg-pink-300">
+                        {{ training.author.firstName.charAt(0).toUpperCase() }}
+                    </div>
+                    }
+                    <p>{{ training.author.firstName }}</p>
+                </div>
+                <div class="px-8 pt-4 pb-8">
+                    <div class="w-full h-[1px] bg-gray-300 mb-4"></div>
+                    <h1 class="text-3xl font-bold">{{ training.title }}</h1>
+                    <p class="mt-4">{{ training.body }}</p>
+                </div>
+            </div>
+            } @else {
+            <p class="p-4">Тренировка не найдена</p>
+            } } @else {
+            <p class="p-4">Загрузка тренировки...</p>
+            }
+        </div>
+    </main>
+</div>

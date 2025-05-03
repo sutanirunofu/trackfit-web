@@ -1,4 +1,5 @@
 @let u = user$ | async;
+@let notificationCount = notificationCount$ | async;
 
 <nav class="flex py-8 px-16 border-b-1 border-pink-400">
     <div class="lex-none logo">
@@ -10,6 +11,12 @@
             <a routerLink="/water">Вода</a>
             <a routerLink="/trainings">Тренировки</a>
             <a routerLink="/profile">Профиль</a>
+            <a routerLink="/notifications" class="relative">
+                <div class="absolute flex justify-center items-center w-5 h-5 bg-pink-500 -top-1 -right-1 rounded-full">
+                    <p class="text-white w-fit h-fit">{{ notificationCount }}</p>
+                </div>
+                <img src="notification.svg" alt="Уведомления" class="h-8">
+            </a>
         } @else {
             <a routerLink="/login">Войти</a>
         }

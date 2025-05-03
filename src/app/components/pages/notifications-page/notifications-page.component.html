@@ -1,0 +1,18 @@
+@let notifications = notifications$ | async;
+
+<div class="h-screen profile-page">
+    <app-navigation class="absolute w-full" />
+    <main class="flex justify-center w-full h-full bg-pink-100">
+        <div class="flex flex-col gap-4 items-center w-full max-w-280 bg-white pt-40 px-8">
+            @for(notification of notifications; track notification.id) {
+            <div class="grid grid-cols-[1fr_200px] items-center w-full h-fit border-b-1 border-pink-400 py-4">
+                <small class="col-span-2 text-gray-600">{{ notification.creationDate | date : 'short' }}</small>
+                <p class="w-full h-fit">{{ notification.text }}</p>
+                <button class="w-fit h-fit bg-pink-300 py-2 px-8 rounded-full cursor-pointer" (click)="deleteById(notification.id)">Удалить</button>
+            </div>
+            } @empty {
+            <p class="p-4">Уведомлений нет</p>
+            }
+        </div>
+    </main>
+</div>

@@ -101,11 +101,36 @@ export const routes: Routes = [
         canActivate: [authGuard],
     },
     {
+        path: "trainings/:id",
+        title: "Тренировка - TrackFit",
+        loadComponent: () =>
+            import("./components/pages/training-page/training-page.component").then((m) => m.TrainingPageComponent),
+        canActivate: [authGuard],
+    },
+    {
         path: "create-product",
         title: "Создание продукта - TrackFit",
         loadComponent: () =>
             import("./components/pages/create-product-page/create-product-page.component").then(
                 (m) => m.CreateProductPageComponent
+            ),
+        canActivate: [authGuard],
+    },
+    {
+        path: "notifications",
+        title: "Уведомления - TrackFit",
+        loadComponent: () =>
+            import("./components/pages/notifications-page/notifications-page.component").then(
+                (m) => m.NotificationsPageComponent
+            ),
+        canActivate: [authGuard],
+    },
+    {
+        path: "create-training",
+        title: "Публикация тренировки - TrackFit",
+        loadComponent: () =>
+            import("./components/pages/create-training-page/create-training-page.component").then(
+                (m) => m.CreateTrainingPageComponent
             ),
         canActivate: [authGuard],
     },

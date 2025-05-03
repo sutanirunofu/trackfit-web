@@ -1,10 +1,10 @@
 @let user = user$ | async;
 
-<div class="h-screen profile-page">
-    <app-navigation />
-    <main class="h-100">
+<div class="relative h-full min-h-screen profile-page">
+    <app-navigation class="absolute w-full" />
+    <main class="flex justify-center h-full min-h-screen bg-pink-100">
         @if(user !== null) {
-        <div class="flex flex-col gap-4">
+        <div class="w-full h-full min-h-screen flex flex-col gap-4 max-w-280 bg-white pt-24">
             <div class="flex gap-4 px-16 py-8 border-b-1 border-pink-400">
                 <div>
                     <div class="w-22 h-22 rounded-full bg-pink-200 relative overflow-hidden">
